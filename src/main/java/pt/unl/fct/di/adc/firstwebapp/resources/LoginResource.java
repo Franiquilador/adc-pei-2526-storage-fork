@@ -44,7 +44,7 @@ public class LoginResource {
 	public LoginResource() {} // Nothing to be done here
 	
 	@POST
-	@Path("/")
+	@Path("/test")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLogin(LoginData data) {
 		LOG.fine("Attempt to login user: " + data.username);
@@ -69,7 +69,7 @@ public class LoginResource {
 	}
 
 	@POST
-	@Path("/v1")
+	@Path("/")// /rest/login/v1
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLoginV1(LoginData data) {
 		LOG.fine("Attempt to login user: " + data.username);
