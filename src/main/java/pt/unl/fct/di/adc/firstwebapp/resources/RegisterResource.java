@@ -2,6 +2,7 @@ package pt.unl.fct.di.adc.firstwebapp.resources;
 
 import java.util.logging.Logger;
 
+import com.google.gson.GsonBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import jakarta.ws.rs.POST;
@@ -21,6 +22,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterData;
+import pt.unl.fct.di.adc.firstwebapp.util.RegisterResponse;
 
 @Path("/createaccount")
 public class RegisterResource {
@@ -28,13 +30,14 @@ public class RegisterResource {
 	private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
 	private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
-	private final Gson g = new Gson();
+	//private final Gson g = new Gson();
+	private final Gson g = new GsonBuilder().setPrettyPrinting().create();
 
 
 	public RegisterResource() {}	// Default constructor, nothing to do
 	
 	@POST
-	@Path("/")
+	@Path("/v1")
 	@Consumes(MediaType.APPLICATION_JSON)
 	
 	public Response registerUserV1(LoginData data) {
@@ -47,28 +50,30 @@ public class RegisterResource {
 						.build();
 		datastore.put(user);
 		LOG.info("User registered " + data.username);
-		return Response.ok().entity(g.toJson(true)).build();
+
+		RegisterResponse response = new RegisterResponse(data.username, "ADMIN");
+
+		return Response.ok().entity(g.toJson(response)).build();
     }
 
     @POST
 	@Path("/v2")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerUserV2(RegisterData data) {
-		LOG.fine("Attempt to register user: " + data.username);
+		LOG.fine("Attempt to register user: " + data.input.username);
 
 		if(!data.validRegistration())
 			return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
 					
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.input.username);
 		Entity user = datastore.get(userKey);
 		
 		if(user != null)
 			return Response.status(Status.BAD_REQUEST).entity("User already exists.").build();
 		
 		user = Entity.newBuilder(userKey)
-				.set("user_name", data.name)
-				.set("user_pwd", DigestUtils.sha512Hex(data.password))
-				.set("user_email", data.email)
+				.set("user_name", data.input.username)
+				.set("user_pwd", DigestUtils.sha512Hex(data.input.password))
 				.set("user_creation_time", Timestamp.now())
 				.build();
 
@@ -76,24 +81,24 @@ public class RegisterResource {
 		// When we reach here, another client might have put() an entity with the same key...
 		
 		datastore.put(user);
-		LOG.info("User registered " + data.username);
+		LOG.info("User registered " + data.input.username);
 		
 		
 		return Response.ok().build();
 	}
 
     @POST
-    @Path("/v3")
+    @Path("/") // previously v3
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUserV3(RegisterData data) {
-        LOG.fine("Attempt to register user: " + data.username);
+        LOG.fine("Attempt to register user: " + data.input.username);
 
         if(!data.validRegistration())
             return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
 
         try {
             Transaction txn = datastore.newTransaction();
-            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+            Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.input.username);
             Entity user = txn.get(userKey);
 
             if(user != null) {
@@ -102,15 +107,20 @@ public class RegisterResource {
             }            
             else {
                 user = Entity.newBuilder(userKey)
-                        .set("user_name", data.name)
-                        .set("user_pwd", DigestUtils.sha512Hex(data.password))
-                        .set("user_email", data.email)
+                        .set("user_name", data.input.username)
+                        .set("user_pwd", DigestUtils.sha512Hex(data.input.password))
+						.set("user_address", data.input.address)
+						.set("user_role", data.input.role)
+						.set("user_phone", data.input.phone)
                         .set("user_creation_time", Timestamp.now())
                         .build();
                 txn.put(user);
                 txn.commit();
-                LOG.info("User registered " + data.username);
-                return Response.ok().build();
+                LOG.info("User registered " + data.input.username);
+
+				RegisterResponse response = new RegisterResponse(data.input.username, "ADMIN");
+
+				return Response.ok().entity(g.toJson(response)).build();
             }
         } catch (Exception e) {
             LOG.severe("Error registering user: " + e.getMessage());

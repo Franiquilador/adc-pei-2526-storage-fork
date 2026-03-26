@@ -1,24 +1,20 @@
 package pt.unl.fct.di.adc.firstwebapp.util;
 
 public class RegisterData {
-	
-	public String username;
-	public String password;
-	public String confirmation;
-	public String email;
-	public String name;
-	
+
+	public Input input;
+
+	public static class Input {
+		public String username;
+		public String password;
+		public String confirmation; // password confirmation
+		public String phone;
+		public String address;
+		public String role;
+	}
 	
 	public RegisterData() {
 		
-	}
-	
-	public RegisterData(String username, String password, String confirmation, String email, String name) {
-		this.username = username;
-		this.password = password;
-		this.confirmation = confirmation;
-		this.email = email;
-		this.name = name;
 	}
 	
 	private boolean nonEmptyOrBlankField(String field) {
@@ -26,13 +22,14 @@ public class RegisterData {
 	}
 	
 	public boolean validRegistration() {
-		
-		 	
-		return nonEmptyOrBlankField(username) &&
-			   nonEmptyOrBlankField(password) &&
-			   nonEmptyOrBlankField(email) &&
-			   nonEmptyOrBlankField(name) &&
-			   email.contains("@") &&
-			   password.equals(confirmation);
+		return nonEmptyOrBlankField(input.username) &&
+			   nonEmptyOrBlankField(input.password) &&
+				nonEmptyOrBlankField(input.phone) &&
+				nonEmptyOrBlankField(input.address) &&
+				nonEmptyOrBlankField(input.role) &&
+			   //nonEmptyOrBlankField(email) &&
+			   //nonEmptyOrBlankField(name) &&
+			   input.username.contains("@") &&
+			   input.password.equals(input.confirmation);
 	}
 }
