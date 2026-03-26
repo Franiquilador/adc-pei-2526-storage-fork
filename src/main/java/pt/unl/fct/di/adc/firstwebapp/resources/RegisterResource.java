@@ -118,7 +118,7 @@ public class RegisterResource {
                 txn.commit();
                 LOG.info("User registered " + data.input.username);
 
-				RegisterResponse response = new RegisterResponse(data.input.username, "ADMIN");
+				RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
 
 				return Response.ok().entity(g.toJson(response)).build();
             }

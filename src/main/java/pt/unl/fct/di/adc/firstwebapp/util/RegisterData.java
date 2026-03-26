@@ -27,6 +27,7 @@ public class RegisterData {
 				nonEmptyOrBlankField(input.phone) &&
 				nonEmptyOrBlankField(input.address) &&
 				nonEmptyOrBlankField(input.role) &&
+				(input.role.equals("ADMIN") || input.role.equals("USER") || input.role.equals("BOFFICER")) &&
 			   //nonEmptyOrBlankField(email) &&
 			   //nonEmptyOrBlankField(name) &&
 			   input.username.contains("@") &&
