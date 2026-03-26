@@ -47,10 +47,10 @@ public class LoginResource {
 	@Path("/test")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLogin(LoginData data) {
-		LOG.fine("Attempt to login user: " + data.username);
+		LOG.fine("Attempt to login user: " + data.input.username);
 
-		if(data.username.equals("user") && data.password.equals("password")) {
-			AuthToken at = new AuthToken(data.username);
+		if(data.input.username.equals("user") && data.input.password.equals("password")) {
+			AuthToken at = new AuthToken(data.input.username);
 			return Response.ok(g.toJson(at)).build();
 		}
 
@@ -72,25 +72,25 @@ public class LoginResource {
 	@Path("/")// /rest/login/v1
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLoginV1(LoginData data) {
-		LOG.fine("Attempt to login user: " + data.username);
+		LOG.fine("Attempt to login user: " + data.input.username);
 
-		Key userKey = userKeyFactory.newKey(data.username);
+		Key userKey = userKeyFactory.newKey(data.input.username);
 		Entity user = datastore.get(userKey);
 
 		if(user != null) {
 			String hashedPWD = user.getString("user_pwd");
-			if(hashedPWD.equals(DigestUtils.sha512Hex(data.password))) {
-				LOG.info("User '" + data.username + "' logged in successfully.");
-				AuthToken at = new AuthToken(data.username);
+			if(hashedPWD.equals(DigestUtils.sha512Hex(data.input.password))) {
+				LOG.info("User '" + data.input.username + "' logged in successfully.");
+				AuthToken at = new AuthToken(data.input.username);
 				return Response.ok(g.toJson(at)).build();
 			}
 			else {
-				LOG.warning("User '" + data.username + "' provided wrong password.");
+				LOG.warning("User '" + data.input.username + "' provided wrong password.");
 				return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
 			}
 		}
 		else {
-			LOG.warning("User '" + data.username + "' does not exist.");
+			LOG.warning("User '" + data.input.username + "' does not exist.");
 			return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
 		}
 	}
@@ -99,29 +99,29 @@ public class LoginResource {
 	@Path("/v1a")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response doLoginV1a(LoginData data) {
-		LOG.fine("Attempt to login user: " + data.username);
+		LOG.fine("Attempt to login user: " + data.input.username);
 
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.input.username);
 		Entity user = datastore.get(userKey);
 
 		if(user != null) {
 			String hashedPWD = user.getString("user_pwd");
-			if(hashedPWD.equals(DigestUtils.sha512Hex(data.password))) {
-				LOG.info("User '" + data.username + "' logged in successfully.");
+			if(hashedPWD.equals(DigestUtils.sha512Hex(data.input.password))) {
+				LOG.info("User '" + data.input.username + "' logged in successfully.");
 				user = Entity.newBuilder(user)
 						.set("user_login_time", Timestamp.now())
 						.build();
 				datastore.update(user);
-				AuthToken at = new AuthToken(data.username);
+				AuthToken at = new AuthToken(data.input.username);
 				return Response.ok(g.toJson(at)).build();
 			}
 			else {
-				LOG.warning("User '" + data.username + "' provided wrong password.");
+				LOG.warning("User '" + data.input.username + "' provided wrong password.");
 				return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
 			}
 		}
 		else {
-			LOG.warning("User '" + data.username + "' does not exist.");
+			LOG.warning("User '" + data.input.username + "' does not exist.");
 			return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
 		}
 	}
@@ -130,33 +130,33 @@ public class LoginResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response doLoginV1b(LoginData data) {
-		LOG.fine("Attempt to login user: " + data.username);
+		LOG.fine("Attempt to login user: " + data.input.username);
 
-		Key userKey = userKeyFactory.newKey(data.username);
+		Key userKey = userKeyFactory.newKey(data.input.username);
 		Entity user = datastore.get(userKey);
 		
 		if( user != null ) {
 			String hashedPWD = user.getString("user_pwd");
-			if( hashedPWD.equals(DigestUtils.sha512Hex(data.password))) {
+			if( hashedPWD.equals(DigestUtils.sha512Hex(data.input.password))) {
 				KeyFactory logKeyFactory = datastore.newKeyFactory()
-						.addAncestor(PathElement.of("User", data.username))
+						.addAncestor(PathElement.of("User", data.input.username))
 						.setKind("UserLog");
 				Key logKey = datastore.allocateId(logKeyFactory.newKey());
 				Entity userLog = Entity.newBuilder(logKey)
 						.set("user_login_time", Timestamp.now())
 						.build();
 				datastore.put(userLog);
-				LOG.info("User '" + data.username + "' logged in successfuly.");
-				AuthToken token = new AuthToken(data.username);
+				LOG.info("User '" + data.input.username + "' logged in successfuly.");
+				AuthToken token = new AuthToken(data.input.username);
 				return Response.ok(g.toJson(token)).build();
 			}
 			else {
-				LOG.warning("Wrong password for: " + data.username);
+				LOG.warning("Wrong password for: " + data.input.username);
 				return Response.status(Status.FORBIDDEN).build();
 			}
 		}
 		else {
-			LOG.warning("Failed login attempt for username: " + data.username);
+			LOG.warning("Failed login attempt for username: " + data.input.username);
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}

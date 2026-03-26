@@ -9,7 +9,6 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
@@ -22,6 +21,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterData;
+import pt.unl.fct.di.adc.firstwebapp.util.ResponseError;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterResponse;
 
 @Path("/createaccount")
@@ -40,36 +40,44 @@ public class RegisterResource {
 	@Path("/v1")
 	@Consumes(MediaType.APPLICATION_JSON)
 	
-	public Response registerUserV1(LoginData data) {
-		LOG.fine("Attempt to register user: " + data.username);
+	public jakarta.ws.rs.core.Response registerUserV1(LoginData data) {
+		LOG.fine("Attempt to register user: " + data.input.username);
 	
-		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.username);
+		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.input.username);
 		Entity user = Entity.newBuilder(userKey)
-						.set("user_pwd", DigestUtils.sha512Hex(data.password))
+						.set("user_pwd", DigestUtils.sha512Hex(data.input.password))
 						.set("user_creation_time", Timestamp.now())
 						.build();
 		datastore.put(user);
-		LOG.info("User registered " + data.username);
+		LOG.info("User registered " + data.input.username);
 
-		RegisterResponse response = new RegisterResponse(data.username, "ADMIN");
+		RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
 
-		return Response.ok().entity(g.toJson(response)).build();
+		return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
     }
 
     @POST
 	@Path("/v2")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registerUserV2(RegisterData data) {
+	public jakarta.ws.rs.core.Response registerUserV2(RegisterData data) {
 		LOG.fine("Attempt to register user: " + data.input.username);
 
-		if(!data.validRegistration())
-			return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
+		if(!data.validRegistration()) {
+			// INVALID_INPUT
+			ResponseError responseErr = new ResponseError("9906", "The call is using input data not following the correct specification");
+
+			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
+		}
 					
 		Key userKey = datastore.newKeyFactory().setKind("User").newKey(data.input.username);
 		Entity user = datastore.get(userKey);
 		
-		if(user != null)
-			return Response.status(Status.BAD_REQUEST).entity("User already exists.").build();
+		if(user != null) {
+			// USER_ALREADY_EXISTS
+			ResponseError responseErr = new ResponseError("9901", "Error in creating an account because the username already exists");
+
+			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
+		}
 		
 		user = Entity.newBuilder(userKey)
 				.set("user_name", data.input.username)
@@ -82,19 +90,24 @@ public class RegisterResource {
 		
 		datastore.put(user);
 		LOG.info("User registered " + data.input.username);
+
+		RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
 		
-		
-		return Response.ok().build();
+		return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
 	}
 
     @POST
     @Path("/") // previously v3
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerUserV3(RegisterData data) {
+    public jakarta.ws.rs.core.Response registerUserV3(RegisterData data) {
         LOG.fine("Attempt to register user: " + data.input.username);
 
-        if(!data.validRegistration())
-            return Response.status(Status.BAD_REQUEST).entity("Missing or wrong parameter.").build();
+		if(!data.validRegistration()) {
+			// INVALID_INPUT
+			ResponseError responseErr = new ResponseError("9906", "The call is using input data not following the correct specification");
+
+			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
+		}
 
         try {
             Transaction txn = datastore.newTransaction();
@@ -103,7 +116,11 @@ public class RegisterResource {
 
             if(user != null) {
                 txn.rollback();
-                return Response.status(Status.CONFLICT).entity("User already exists.").build();
+
+				// USER_ALREADY_EXISTS
+				ResponseError responseErr = new ResponseError("9901", "Error in creating an account because the username already exists");
+
+                return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
             }            
             else {
                 user = Entity.newBuilder(userKey)
@@ -120,14 +137,24 @@ public class RegisterResource {
 
 				RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
 
-				return Response.ok().entity(g.toJson(response)).build();
+				return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
             }
         } catch (Exception e) {
             LOG.severe("Error registering user: " + e.getMessage());
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error registering user.").build();
+            return jakarta.ws.rs.core.Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error registering user.").build();
         }
         finally {
             // No need to rollback here, as we only have one transaction and it will be automatically rolled back if not committed.
         }
     }
+
+	// to check if status is an error code
+	public static boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 }
