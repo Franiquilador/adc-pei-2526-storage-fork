@@ -21,7 +21,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterData;
-import pt.unl.fct.di.adc.firstwebapp.util.ResponseError;
+import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterResponse;
 
 @Path("/createaccount")
@@ -64,7 +64,7 @@ public class RegisterResource {
 
 		if(!data.validRegistration()) {
 			// INVALID_INPUT
-			ResponseError responseErr = new ResponseError("9906", "The call is using input data not following the correct specification");
+			ErrorResponse responseErr = new ErrorResponse("9906", "The call is using input data not following the correct specification");
 
 			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
 		}
@@ -74,7 +74,7 @@ public class RegisterResource {
 		
 		if(user != null) {
 			// USER_ALREADY_EXISTS
-			ResponseError responseErr = new ResponseError("9901", "Error in creating an account because the username already exists");
+			ErrorResponse responseErr = new ErrorResponse("9901", "Error in creating an account because the username already exists");
 
 			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
 		}
@@ -104,7 +104,7 @@ public class RegisterResource {
 
 		if(!data.validRegistration()) {
 			// INVALID_INPUT
-			ResponseError responseErr = new ResponseError("9906", "The call is using input data not following the correct specification");
+			ErrorResponse responseErr = new ErrorResponse("9906", "The call is using input data not following the correct specification");
 
 			return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
 		}
@@ -118,7 +118,7 @@ public class RegisterResource {
                 txn.rollback();
 
 				// USER_ALREADY_EXISTS
-				ResponseError responseErr = new ResponseError("9901", "Error in creating an account because the username already exists");
+				ErrorResponse responseErr = new ErrorResponse("9901", "Error in creating an account because the username already exists");
 
                 return jakarta.ws.rs.core.Response.ok().entity(g.toJson(responseErr)).build();
             }            

@@ -16,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import pt.unl.fct.di.adc.firstwebapp.util.AuthToken;
+import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 
 import com.google.cloud.Timestamp;
@@ -26,6 +27,7 @@ import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.gson.Gson;
+import pt.unl.fct.di.adc.firstwebapp.util.LoginResponse;
 
 
 @Path("/login")
@@ -50,7 +52,9 @@ public class LoginResource {
 		LOG.fine("Attempt to login user: " + data.input.username);
 
 		if(data.input.username.equals("user") && data.input.password.equals("password")) {
-			AuthToken at = new AuthToken(data.input.username);
+
+
+			AuthToken at = new AuthToken(data.input.username, "Error, this is wrong");
 			return Response.ok(g.toJson(at)).build();
 		}
 
@@ -81,17 +85,30 @@ public class LoginResource {
 			String hashedPWD = user.getString("user_pwd");
 			if(hashedPWD.equals(DigestUtils.sha512Hex(data.input.password))) {
 				LOG.info("User '" + data.input.username + "' logged in successfully.");
-				AuthToken at = new AuthToken(data.input.username);
-				return Response.ok(g.toJson(at)).build();
+
+				String role = user.getString("user_role");
+				AuthToken at = new AuthToken(data.input.username, role);
+
+				LoginResponse response = new LoginResponse(data.input.username, at);
+
+				return Response.ok().entity(g.toJson(response)).build();
 			}
 			else {
 				LOG.warning("User '" + data.input.username + "' provided wrong password.");
-				return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
+
+				// INVALID_CREDENTIALS
+				ErrorResponse responseErr = new ErrorResponse("9900", "The username-password pair is not valid");
+
+				return Response.ok().entity(g.toJson(responseErr)).build();
 			}
 		}
 		else {
 			LOG.warning("User '" + data.input.username + "' does not exist.");
-			return Response.status(Response.Status.FORBIDDEN).entity("Incorrect username or password.").build();
+
+			// USER_NOT_FOUND
+			ErrorResponse responseErr = new ErrorResponse("9902", "The username referred in the operation doesn’t exist in registered accounts");
+
+			return Response.ok().entity(g.toJson(responseErr)).build();
 		}
 	}
 
@@ -112,7 +129,9 @@ public class LoginResource {
 						.set("user_login_time", Timestamp.now())
 						.build();
 				datastore.update(user);
-				AuthToken at = new AuthToken(data.input.username);
+
+
+				AuthToken at = new AuthToken(data.input.username, "error this is wrong");
 				return Response.ok(g.toJson(at)).build();
 			}
 			else {
@@ -147,7 +166,7 @@ public class LoginResource {
 						.build();
 				datastore.put(userLog);
 				LOG.info("User '" + data.input.username + "' logged in successfuly.");
-				AuthToken token = new AuthToken(data.input.username);
+				AuthToken token = new AuthToken(data.input.username, "error this is wrong");
 				return Response.ok(g.toJson(token)).build();
 			}
 			else {

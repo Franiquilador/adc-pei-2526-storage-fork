@@ -10,12 +10,14 @@ public class AuthToken {
 	public String username;
 	public long issuedAt;
 	public long expiresAt;
+	public String role;
 	
 	public AuthToken() { }
 	
-	public AuthToken(String username) {
+	public AuthToken(String username, String role) {
 		this.tokenId = UUID.randomUUID().toString();
 		this.username = username;
+		this.role = role;
 		this.issuedAt = System.currentTimeMillis();
 		this.expiresAt = this.issuedAt + EXPIRATION_TIME;
 	}
