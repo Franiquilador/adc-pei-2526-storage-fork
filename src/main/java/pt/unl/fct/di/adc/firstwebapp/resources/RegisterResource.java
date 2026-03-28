@@ -31,7 +31,7 @@ public class RegisterResource {
 	private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
 
 	//private final Gson g = new Gson();
-	private final Gson g = new GsonBuilder().setPrettyPrinting().create();
+	private final Gson g = new GsonBuilder().setPrettyPrinting().create(); // for the json to be indented correctly
 
 
 	public RegisterResource() {}	// Default constructor, nothing to do

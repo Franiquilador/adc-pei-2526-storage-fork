@@ -1,0 +1,141 @@
+$kind: http-request
+name: login do adm1 com sucesso
+url: http://localhost:8080/rest/login
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"input\": {\r
+
+    \        \"username\": \"adm1@myemail\",\r
+
+    \        \"password\": \"pwd\"\r
+
+    \    }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      \r
+
+      pm.test(\"Status is 200\", () => {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status is success\", () => {\r
+
+      \  pm.expect(json.status).to.eql(\"success\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Data object exists\", () => {\r
+
+      \  pm.expect(json).to.have.property(\"data\");\r
+
+      });\r
+
+      \r
+
+      // Token object exists\r
+
+      pm.test(\"Token object exists\", () => {\r
+
+      \  pm.expect(json.data).to.have.property(\"token\");\r
+
+      });\r
+
+      \r
+
+      // Token fields\r
+
+      pm.test(\"Token has tokenId\", () => {\r
+
+      \  pm.expect(json.data.token.tokenId).to.be.a(\"string\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Username matches\", () => {\r
+
+      \  pm.expect(json.data.token.username).to.eql(\"adm1@myemail\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Role is ADMIN\", () => {\r
+
+      \  pm.expect(json.data.token.role).to.eql(\"ADMIN\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"issuedAt is a number\", () => {\r
+
+      \  pm.expect(json.data.token.issuedAt).to.be.a(\"number\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"expiresAt is a number\", () => {\r
+
+      \  pm.expect(json.data.token.expiresAt).to.be.a(\"number\");\r
+
+      });\r
+
+      \r
+
+      // Check token hasn't already expired\r
+
+      pm.test(\"Token is not expired\", () => {\r
+
+      \ 
+      pm.expect(json.data.token.expiresAt).to.be.above(json.data.token.issuedAt\
+      );\r
+
+      });\r
+
+      \r
+
+      // so that this login token, which is randomly generated everytime we run
+      the collection sequentially, can be used for authentication in other
+      commands, for example /showusers command\r
+
+      if (json.status === \"success\") {\r
+
+      \    const token = json.data.token;\r
+
+      \    pm.collectionVariables.set(\"tokenId\", token.tokenId);\r
+
+      \    pm.collectionVariables.set(\"tokenUsername\", token.username);\r
+
+      \    pm.collectionVariables.set(\"tokenRole\", token.role);\r
+
+      \    pm.collectionVariables.set(\"tokenIssuedAt\", token.issuedAt);\r
+
+      \    pm.collectionVariables.set(\"tokenExpiresAt\", token.expiresAt);\r
+
+      \    pm.collectionVariables.set(\"tokenExpiresAtBefore\", token.expiresAt
+      - 1000000); // to test TOKEN_EXPIRED\r
+
+      } else {\r
+
+      \    console.error(\"Login failed, token variables not set:\", json);\r
+
+      }"
+    language: text/javascript
+order: 3112566890843187

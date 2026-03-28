@@ -1,0 +1,91 @@
+$kind: http-request
+name: new USER account
+url: http://localhost:8080/rest/createaccount
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"input\":{\r
+
+    \    \"username\":\"user1@myemail\",\r
+
+    \    \"password\":\"pwd\",\r
+
+    \    \"confirmation\":\"pwd\",\r
+
+    \    \"phone\":\"123\",\r
+
+    \    \"address\":\"address1\",\r
+
+    \    \"role\":\"USER\"\r
+
+    \  }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json(); // pm stands for postman, and it is for
+      loading the json response\r
+
+      \r
+
+      // checks that the status code is 200 OK\r
+
+      pm.test(\"Status is 200\", () => {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      // checks that the status field is \"success\" like it should be\r
+
+      pm.test(\"Status is success\", () => {\r
+
+      \  pm.expect(json.status).to.eql(\"success\");\r
+
+      });\r
+
+      \r
+
+      // check that the data object exists \r
+
+      pm.test(\"Data object exists\", () => {\r
+
+      \  pm.expect(json).to.have.property(\"data\");\r
+
+      });\r
+
+      \r
+
+      // Check username echoed back correctly\r
+
+      pm.test(\"Username matches input\", () => {\r
+
+      \  pm.expect(json.data.username).to.eql(\"user1@myemail\");\r
+
+      });\r
+
+      \r
+
+      // Check role is correct\r
+
+      pm.test(\"Role is USER\", () => {\r
+
+      \  pm.expect(json.data.role).to.eql(\"USER\");\r
+
+      });\r
+
+      \r
+
+      // Check sensitive fields are NOT exposed in response\r
+
+      pm.test(\"Password not returned\", () => {\r
+
+      \  pm.expect(json.data).to.not.have.property(\"password\");\r
+
+      });"
+    language: text/javascript
+order: 4310455175266165

@@ -1,0 +1,14 @@
+$kind: collection
+name: adc tutorial
+variables:
+  tokenId: ""
+  tokenUsername: ""
+  tokenRole: ""
+  tokenIssuedAt: ""
+  tokenExpiresAt: ""
+  tokenExpiresAtBefore: ""
+  tokenIdUser: ""
+  tokenUsernameUser: ""
+  tokenRoleUser: ""
+  tokenIssuedAtUser: ""
+  tokenExpiresAtUser: ""

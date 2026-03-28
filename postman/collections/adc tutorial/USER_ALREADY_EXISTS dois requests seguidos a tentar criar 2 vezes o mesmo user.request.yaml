@@ -1,0 +1,51 @@
+$kind: http-request
+name: USER_ALREADY_EXISTS dois requests seguidos a tentar criar 2 vezes o mesmo user
+url: http://localhost:8080/rest/createaccount
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"input\":{\r
+
+    \    \"username\":\"adm1@myemail\",\r
+
+    \    \"password\":\"pwd\",\r
+
+    \    \"confirmation\":\"pwd\",\r
+
+    \    \"phone\":\"123456\",\r
+
+    \    \"address\":\"address1\",\r
+
+    \    \"role\":\"ADMIN\"\r
+
+    \  }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      // Check it did not succeed\r
+
+      pm.test(\"Status is error code 9901\", () => {\r
+
+      \  pm.expect(json.status).to.eql(\"9901\");\r
+
+      });\r
+
+      \r
+
+      // Check the error message\r
+
+      pm.test(\"Duplicate username error message\", () => {\r
+
+      \  pm.expect(json.data).to.eql(\"Error in creating an account because the
+      username already exists\");\r
+
+      });"
+    language: text/javascript
+order: 618945875037688

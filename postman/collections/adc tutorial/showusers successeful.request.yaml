@@ -1,0 +1,112 @@
+$kind: http-request
+name: showusers successeful
+url: http://localhost:8080/rest/showusers
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"input\": {},\r
+
+    \    \"token\": {\r
+
+    \        \"tokenId\": \"{{tokenId}}\",\r
+
+    \        \"username\": \"{{tokenUsername}}\",\r
+
+    \        \"role\": \"{{tokenRole}}\",\r
+
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response has status success\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    pm.expect(json.status).to.eql(\"success\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response contains data.users array\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    pm.expect(json.data).to.be.an(\"object\");\r
+
+      \    pm.expect(json.data.users).to.be.an(\"array\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Each user has 'username' and 'role' fields\", function () {\r
+
+      \    const users = pm.response.json().data.users;\r
+
+      \    users.forEach(function (user) {\r
+
+      \        pm.expect(user).to.have.property(\"username\").that.is.a(\"string\
+      \");\r
+
+      \        pm.expect(user).to.have.property(\"role\").that.is.a(\"string\");\
+      \r
+
+      \    });\r
+
+      });\r
+
+      \r
+
+      pm.test(\"user roles are valid\", function () {\r
+
+      \    const validRoles = [\"ADMIN\", \"USER\", \"BOFFICER\"];\r
+
+      \    const users = pm.response.json().data.users;\r
+
+      \    users.forEach(function (user) {\r
+
+      \        pm.expect(validRoles).to.include(user.role);\r
+
+      \    });\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Usernames are emails with @\", function () {\r
+
+      \    const users = pm.response.json().data.users;\r
+
+      \    users.forEach(function (user) {\r
+
+      \        pm.expect(user.username).to.include(\"@\");\r
+
+      \    });\r
+
+      });"
+    language: text/javascript
+  - type: beforeRequest
+    code: //console.log("expiresAt value being sent:",
+      pm.collectionVariables.get("tokenExpiresAt"));
+    language: text/javascript
+order: 4474949419719546

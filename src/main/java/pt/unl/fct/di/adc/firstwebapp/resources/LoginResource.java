@@ -89,6 +89,16 @@ public class LoginResource {
 				String role = user.getString("user_role");
 				AuthToken at = new AuthToken(data.input.username, role);
 
+				// save the token to datastore so we can verify it is the correct one when authenticating another command (showusers for example)
+				Key tokenKey = datastore.newKeyFactory().setKind("AuthToken").newKey(at.tokenId);
+				Entity tokenEntity = Entity.newBuilder(tokenKey)
+						.set("username", at.username)
+						.set("role", at.role)
+						.set("issuedAt", at.issuedAt)
+						.set("expiresAt", at.expiresAt)
+						.build();
+				datastore.put(tokenEntity);
+
 				LoginResponse response = new LoginResponse(data.input.username, at);
 
 				return Response.ok().entity(g.toJson(response)).build();

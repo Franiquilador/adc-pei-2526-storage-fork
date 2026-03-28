@@ -1,0 +1,51 @@
+$kind: http-request
+name: INVALID_TOKEN
+url: http://localhost:8080/rest/showusers
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"input\": {},\r
+
+    \    \"token\": {\r
+
+    \        \"tokenId\": \"invalido\",\r
+
+    \        \"username\": \"{{tokenUsername}}\",\r
+
+    \        \"role\": \"{{tokenRole}}\",\r
+
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      // Check it did not succeed\r
+
+      pm.test(\"Status is error code 9903\", () => {\r
+
+      \  pm.expect(json.status).to.eql(\"9903\");\r
+
+      });\r
+
+      \r
+
+      // Check the error message\r
+
+      pm.test(\"invalid token\", () => {\r
+
+      \  pm.expect(json.data).to.eql(\"The operation is called with an invalid
+      token (wrong format for example)\");\r
+
+      });"
+    language: text/javascript
+order: 4497608200804155
