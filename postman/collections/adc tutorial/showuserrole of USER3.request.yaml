@@ -1,26 +1,30 @@
 $kind: http-request
-name: new USER3 account
-url: http://localhost:8080/rest/createaccount
+name: showuserrole of USER3
+url: http://localhost:8080/rest/showuserrole
 method: POST
 body:
   type: json
   content: "{\r
 
-    \  \"input\":{\r
+    \    \"input\": {\r
 
-    \    \"username\":\"user3@myemail\",\r
+    \        \"username\": \"user3@myemail\"\r
 
-    \    \"password\":\"pwd\",\r
+    \    },\r
 
-    \    \"confirmation\":\"pwd\",\r
+    \    \"token\": {\r
 
-    \    \"phone\":\"123\",\r
+    \        \"tokenId\": \"{{tokenId}}\",\r
 
-    \    \"address\":\"address1\",\r
+    \        \"username\": \"{{tokenUsername}}\",\r
 
-    \    \"role\":\"USER\"\r
+    \        \"role\": \"{{tokenRole}}\",\r
 
-    \  }\r
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
 
     }"
 scripts:
@@ -88,4 +92,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 22000
+order: 31000

@@ -1,6 +1,6 @@
 $kind: http-request
-name: modaccount of USER3
-url: http://localhost:8080/rest/modaccount
+name: changeuserrole of USER3 TO BOFFICER
+url: http://localhost:8080/rest/changeuserrole
 method: POST
 body:
   type: json
@@ -10,13 +10,7 @@ body:
 
     \        \"username\": \"user3@myemail\",\r
 
-    \        \"attributes\": {\r
-
-    \            \"phone\": \"777\",\r
-
-    \            \"address\": \"uma_rua\"\r
-
-    \        }\r
+    \        \"newRole\": \"BOFFICER\"\r
 
     \    },\r
 
@@ -69,8 +63,8 @@ scripts:
 
       pm.test(\"message confirmation\", () => {\r
 
-      \  pm.expect(json.data.message).to.eql(\"Updated successfully\");\r
+      \  pm.expect(json.data.message).to.eql(\"Role updated successfully\");\r
 
       });"
     language: text/javascript
-order: 26000
+order: 33000

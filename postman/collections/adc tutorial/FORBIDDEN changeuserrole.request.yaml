@@ -1,6 +1,6 @@
 $kind: http-request
-name: INVALID_INPUT modaccount
-url: http://localhost:8080/rest/modaccount
+name: FORBIDDEN changeuserrole
+url: http://localhost:8080/rest/changeuserrole
 method: POST
 body:
   type: json
@@ -10,13 +10,7 @@ body:
 
     \        \"username\": \"user3@myemail\",\r
 
-    \        \"attributes\": {\r
-
-    \            \"phone\": \"telefone_invalido\",\r
-
-    \            \"address\": \"qualquer_rua\"\r
-
-    \        }\r
+    \        \"newRole\": \"notvalid_role\"\r
 
     \    },\r
 
@@ -43,9 +37,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9906\", () => {\r
+      pm.test(\"Status is error code 9907\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9906\");\r
+      \  pm.expect(json.status).to.eql(\"9907\");\r
 
       });\r
 
@@ -53,11 +47,11 @@ scripts:
 
       // Check the error message\r
 
-      pm.test(\"invalid input error message\", () => {\r
+      pm.test(\"forbidden\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The call is using input data not
-      following the correct specification\");\r
+      \  pm.expect(json.data).to.eql(\"The operation generated a forbidden error
+      by other reason\");\r
 
       });"
     language: text/javascript
-order: 23000
+order: 32647
