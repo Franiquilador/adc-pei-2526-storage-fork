@@ -1,12 +1,16 @@
 $kind: http-request
-name: TOKEN_EXPIRED
-url: http://localhost:8080/rest/showusers
+name: USER_NOT_FOUND deleteaccount
+url: http://localhost:8080/rest/deleteaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {},\r
+    \    \"input\": {\r
+
+    \        \"username\": \"randomuser@myemail\"\r
+
+    \    },\r
 
     \    \"token\": {\r
 
@@ -18,7 +22,7 @@ body:
 
     \        \"issuedAt\": {{tokenIssuedAt}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtBefore}}\r
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
 
     \    }\r
 
@@ -31,9 +35,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9904\", () => {\r
+      pm.test(\"Status is error code 9902\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9904\");\r
+      \  pm.expect(json.status).to.eql(\"9902\");\r
 
       });\r
 
@@ -41,11 +45,11 @@ scripts:
 
       // Check the error message\r
 
-      pm.test(\"token expired\", () => {\r
+      pm.test(\"Username not found\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The operation is called with a token that
-      is expired\");\r
+      \  pm.expect(json.data).to.eql(\"The username referred in the operation
+      doesn’t exist in registered accounts\");\r
 
       });"
     language: text/javascript
-order: 11000
+order: 17000

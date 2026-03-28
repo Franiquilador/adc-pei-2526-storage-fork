@@ -1,12 +1,16 @@
 $kind: http-request
-name: TOKEN_EXPIRED
-url: http://localhost:8080/rest/showusers
+name: TOKEN_EXPIRED deleteaccount
+url: http://localhost:8080/rest/deleteaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {},\r
+    \    \"input\": {\r
+
+    \        \"username\": \"user2@myemail\"\r
+
+    \    },\r
 
     \    \"token\": {\r
 
@@ -48,4 +52,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 11000
+order: 21000

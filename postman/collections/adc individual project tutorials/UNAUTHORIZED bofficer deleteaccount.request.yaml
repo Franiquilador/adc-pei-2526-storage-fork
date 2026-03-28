@@ -1,0 +1,5 @@
+$kind: http-request
+name: UNAUTHORIZED bofficer deleteaccount
+url: ""
+method: GET
+order: 4131442402997692

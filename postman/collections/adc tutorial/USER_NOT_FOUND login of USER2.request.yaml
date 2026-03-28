@@ -1,5 +1,5 @@
 $kind: http-request
-name: USER_NOT_FOUND
+name: USER_NOT_FOUND login of USER2
 url: http://localhost:8080/rest/login
 method: POST
 body:
@@ -8,7 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"am1@myemail\",\r
+    \        \"username\": \"user2@myemail\",\r
 
     \        \"password\": \"pwd\"\r
 
@@ -40,4 +40,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 7000
+order: 221178326175232

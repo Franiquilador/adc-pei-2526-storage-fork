@@ -1,5 +1,5 @@
 $kind: http-request
-name: um request a criar utilizador com sucesso
+name: new USER2 account
 url: http://localhost:8080/rest/createaccount
 method: POST
 body:
@@ -8,17 +8,17 @@ body:
 
     \  \"input\":{\r
 
-    \    \"username\":\"adm1@myemail\",\r
+    \    \"username\":\"user2@myemail\",\r
 
     \    \"password\":\"pwd\",\r
 
     \    \"confirmation\":\"pwd\",\r
 
-    \    \"phone\":\"123456\",\r
+    \    \"phone\":\"123\",\r
 
     \    \"address\":\"address1\",\r
 
-    \    \"role\":\"ADMIN\"\r
+    \    \"role\":\"USER\"\r
 
     \  }\r
 
@@ -64,7 +64,7 @@ scripts:
 
       pm.test(\"Username matches input\", () => {\r
 
-      \  pm.expect(json.data.username).to.eql(\"adm1@myemail\");\r
+      \  pm.expect(json.data.username).to.eql(\"user2@myemail\");\r
 
       });\r
 
@@ -72,9 +72,9 @@ scripts:
 
       // Check role is correct\r
 
-      pm.test(\"Role is ADMIN\", () => {\r
+      pm.test(\"Role is USER\", () => {\r
 
-      \  pm.expect(json.data.role).to.eql(\"ADMIN\");\r
+      \  pm.expect(json.data.role).to.eql(\"USER\");\r
 
       });\r
 
@@ -88,4 +88,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 1000
+order: 1561702234595627

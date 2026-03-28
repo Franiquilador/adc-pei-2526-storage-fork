@@ -1,0 +1,69 @@
+$kind: http-request
+name: deleteaccount of USER2
+url: http://localhost:8080/rest/deleteaccount
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"input\": {\r
+
+    \        \"username\": \"user2@myemail\"\r
+
+    \    },\r
+
+    \    \"token\": {\r
+
+    \        \"tokenId\": \"{{tokenId}}\",\r
+
+    \        \"username\": \"{{tokenUsername}}\",\r
+
+    \        \"role\": \"{{tokenRole}}\",\r
+
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      \r
+
+      pm.test(\"Status is 200\", () => {\r
+
+      \  pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Status is success\", () => {\r
+
+      \  pm.expect(json.status).to.eql(\"success\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Data object exists\", () => {\r
+
+      \  pm.expect(json).to.have.property(\"data\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"message confirmation\", () => {\r
+
+      \  pm.expect(json.data.message).to.eql(\"Account deleted
+      successfully\");\r
+
+      });"
+    language: text/javascript
+order: 15000

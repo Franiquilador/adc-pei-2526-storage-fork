@@ -1,16 +1,20 @@
 $kind: http-request
-name: INVALID_TOKEN
-url: http://localhost:8080/rest/showusers
+name: INVALID_TOKEN deleteaccount
+url: http://localhost:8080/rest/deleteaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {},\r
+    \    \"input\": {\r
+
+    \        \"username\": \"user2@myemail\"\r
+
+    \    },\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"invalido\",\r
+    \        \"tokenId\": \"randomnonexistentToken\",\r
 
     \        \"username\": \"{{tokenUsername}}\",\r
 
@@ -48,4 +52,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 10000
+order: 18000

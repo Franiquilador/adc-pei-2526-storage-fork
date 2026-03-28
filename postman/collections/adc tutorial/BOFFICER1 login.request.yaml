@@ -1,5 +1,5 @@
 $kind: http-request
-name: login do adm1 com sucesso
+name: BOFFICER1 login
 url: http://localhost:8080/rest/login
 method: POST
 body:
@@ -8,7 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"adm1@myemail\",\r
+    \        \"username\": \"bofficer1@myemail\",\r
 
     \        \"password\": \"pwd\"\r
 
@@ -69,15 +69,15 @@ scripts:
 
       pm.test(\"Username matches\", () => {\r
 
-      \  pm.expect(json.data.token.username).to.eql(\"adm1@myemail\");\r
+      \  pm.expect(json.data.token.username).to.eql(\"bofficer1@myemail\");\r
 
       });\r
 
       \r
 
-      pm.test(\"Role is ADMIN\", () => {\r
+      pm.test(\"Role is BOFFICER\", () => {\r
 
-      \  pm.expect(json.data.token.role).to.eql(\"ADMIN\");\r
+      \  pm.expect(json.data.token.role).to.eql(\"BOFFICER\");\r
 
       });\r
 
@@ -113,24 +113,24 @@ scripts:
 
       // so that this login token, which is randomly generated everytime we run
       the collection sequentially, can be used for authentication in other
-      commands, for example /showusers command\r
+      commands\r
 
       if (json.status === \"success\") {\r
 
       \    const token = json.data.token;\r
 
-      \    pm.collectionVariables.set(\"tokenId\", token.tokenId);\r
+      \    pm.collectionVariables.set(\"tokenIdBofficer1\", token.tokenId);\r
 
-      \    pm.collectionVariables.set(\"tokenUsername\", token.username);\r
+      \    pm.collectionVariables.set(\"tokenUsernameBofficer1\",
+      token.username);\r
 
-      \    pm.collectionVariables.set(\"tokenRole\", token.role);\r
+      \    pm.collectionVariables.set(\"tokenRoleBofficer1\", token.role);\r
 
-      \    pm.collectionVariables.set(\"tokenIssuedAt\", token.issuedAt);\r
+      \    pm.collectionVariables.set(\"tokenIssuedAtBofficer1\",
+      token.issuedAt);\r
 
-      \    pm.collectionVariables.set(\"tokenExpiresAt\", token.expiresAt);\r
-
-      \    pm.collectionVariables.set(\"tokenExpiresAtBefore\", token.expiresAt
-      - 1000000); // to test TOKEN_EXPIRED\r
+      \    pm.collectionVariables.set(\"tokenExpiresAtBofficer1\",
+      token.expiresAt);\r
 
       } else {\r
 
@@ -138,4 +138,4 @@ scripts:
 
       }"
     language: text/javascript
-order: 4000
+order: 20000

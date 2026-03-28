@@ -1,24 +1,28 @@
 $kind: http-request
-name: UNAUTHORIZED
-url: http://localhost:8080/rest/showusers
+name: UNAUTHORIZED bofficer deleteaccount
+url: http://localhost:8080/rest/deleteaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {},\r
+    \    \"input\": {\r
+
+    \        \"username\": \"user2@myemail\"\r
+
+    \    },\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenIdUser}}\",\r
+    \        \"tokenId\": \"{{tokenIdBofficer1}}\",\r
 
-    \        \"username\": \"{{tokenUsernameUser}}\",\r
+    \        \"username\": \"{{tokenUsernameBofficer1}}\",\r
 
-    \        \"role\": \"{{tokenRoleUser}}\",\r
+    \        \"role\": \"{{tokenRoleBofficer1}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAtUser}},\r
+    \        \"issuedAt\": {{tokenIssuedAtBofficer1}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtUser}}\r
+    \        \"expiresAt\": {{tokenExpiresAtBofficer1}}\r
 
     \    }\r
 
@@ -48,4 +52,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 4503265882047458
+order: 16000

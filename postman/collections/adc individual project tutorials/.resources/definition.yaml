@@ -12,8 +12,3 @@ variables:
   tokenRoleUser: ""
   tokenIssuedAtUser: ""
   tokenExpiresAtUser: ""
-  tokenIdBofficer1: ""
-  tokenUsernameBofficer1: ""
-  tokenRoleBofficer1: ""
-  tokenIssuedAtBofficer1: ""
-  tokenExpiresAtBofficer1: ""

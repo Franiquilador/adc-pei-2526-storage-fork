@@ -1,5 +1,5 @@
 $kind: http-request
-name: INVALID_CREDENTIALS
+name: USER_NOT_FOUND
 url: http://localhost:8080/rest/login
 method: POST
 body:
@@ -8,9 +8,9 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"adm1@myemail\",\r
+    \        \"username\": \"am1@myemail\",\r
 
-    \        \"password\": \"pd\"\r
+    \        \"password\": \"pwd\"\r
 
     \    }\r
 
@@ -23,9 +23,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9900\", () => {\r
+      pm.test(\"Status is error code 9902\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9900\");\r
+      \  pm.expect(json.status).to.eql(\"9902\");\r
 
       });\r
 
@@ -35,9 +35,9 @@ scripts:
 
       pm.test(\"Duplicate username error message\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The username-password pair is not
-      valid\");\r
+      \  pm.expect(json.data).to.eql(\"The username referred in the operation
+      doesn’t exist in registered accounts\");\r
 
       });"
     language: text/javascript
-order: 5000
+order: 6000
