@@ -9,7 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import pt.unl.fct.di.adc.firstwebapp.util.DeleteAccountRequest;
+import pt.unl.fct.di.adc.firstwebapp.util.AccountRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
 import pt.unl.fct.di.adc.firstwebapp.util.SuccessResponse;
 
@@ -28,7 +28,7 @@ public class DeleteAccountResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteAccount(DeleteAccountRequest request) {
+    public Response deleteAccount(AccountRequest request) {
 
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);

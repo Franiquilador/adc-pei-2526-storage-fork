@@ -1,26 +1,30 @@
 $kind: http-request
-name: new USER3 account
-url: http://localhost:8080/rest/createaccount
+name: showuserrole of BOFICCER1
+url: http://localhost:8080/rest/showuserrole
 method: POST
 body:
   type: json
   content: "{\r
 
-    \  \"input\":{\r
+    \    \"input\": {\r
 
-    \    \"username\":\"user3@myemail\",\r
+    \        \"username\": \"bofficer1@myemail\"\r
 
-    \    \"password\":\"pwd\",\r
+    \    },\r
 
-    \    \"confirmation\":\"pwd\",\r
+    \    \"token\": {\r
 
-    \    \"phone\":\"123\",\r
+    \        \"tokenId\": \"{{tokenId}}\",\r
 
-    \    \"address\":\"address1\",\r
+    \        \"username\": \"{{tokenUsername}}\",\r
 
-    \    \"role\":\"USER\"\r
+    \        \"role\": \"{{tokenRole}}\",\r
 
-    \  }\r
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
 
     }"
 scripts:
@@ -64,7 +68,7 @@ scripts:
 
       pm.test(\"Username matches input\", () => {\r
 
-      \  pm.expect(json.data.username).to.eql(\"user3@myemail\");\r
+      \  pm.expect(json.data.username).to.eql(\"bofficer1@myemail\");\r
 
       });\r
 
@@ -72,9 +76,9 @@ scripts:
 
       // Check role is correct\r
 
-      pm.test(\"Role is USER\", () => {\r
+      pm.test(\"Role is BOFFICER\", () => {\r
 
-      \  pm.expect(json.data.role).to.eql(\"USER\");\r
+      \  pm.expect(json.data.role).to.eql(\"BOFFICER\");\r
 
       });\r
 
@@ -88,4 +92,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 23000
+order: 27691

@@ -1,6 +1,6 @@
 $kind: http-request
-name: UNAUTHORIZED modaccount
-url: http://localhost:8080/rest/modaccount
+name: UNAUTHORIZED showuserrole
+url: http://localhost:8080/rest/showuserrole
 method: POST
 body:
   type: json
@@ -8,15 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"user3@myemail\",\r
-
-    \        \"attributes\": {\r
-
-    \            \"phone\": \"777\",\r
-
-    \            \"address\": \"qualquer_rua\"\r
-
-    \        }\r
+    \        \"username\": \"bofficer1@myemail\"\r
 
     \    },\r
 
@@ -60,4 +52,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 25000
+order: 4133896128980581

@@ -22,7 +22,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import pt.unl.fct.di.adc.firstwebapp.util.LoginData;
 import pt.unl.fct.di.adc.firstwebapp.util.RegisterData;
 import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
-import pt.unl.fct.di.adc.firstwebapp.util.RegisterResponse;
+import pt.unl.fct.di.adc.firstwebapp.util.UserResponse;
 
 @Path("/createaccount")
 public class RegisterResource {
@@ -51,7 +51,7 @@ public class RegisterResource {
 		datastore.put(user);
 		LOG.info("User registered " + data.input.username);
 
-		RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
+		UserResponse response = new UserResponse(data.input.username, data.input.role);
 
 		return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
     }
@@ -91,7 +91,7 @@ public class RegisterResource {
 		datastore.put(user);
 		LOG.info("User registered " + data.input.username);
 
-		RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
+		UserResponse response = new UserResponse(data.input.username, data.input.role);
 		
 		return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
 	}
@@ -135,7 +135,7 @@ public class RegisterResource {
                 txn.commit();
                 LOG.info("User registered " + data.input.username);
 
-				RegisterResponse response = new RegisterResponse(data.input.username, data.input.role);
+				UserResponse response = new UserResponse(data.input.username, data.input.role);
 
 				return jakarta.ws.rs.core.Response.ok().entity(g.toJson(response)).build();
             }

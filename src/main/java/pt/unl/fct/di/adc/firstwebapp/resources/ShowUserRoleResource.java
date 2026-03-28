@@ -9,15 +9,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import pt.unl.fct.di.adc.firstwebapp.util.AccountRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
-import pt.unl.fct.di.adc.firstwebapp.util.ModifyAccountAttributesRequest;
-import pt.unl.fct.di.adc.firstwebapp.util.SuccessResponse;
+import pt.unl.fct.di.adc.firstwebapp.util.UserResponse;
 
 import java.util.logging.Logger;
 
-@Path("/modaccount")
+@Path("/showuserrole")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-public class ModifyAccountAttributesResource {// changes only phone and address fields
+public class ShowUserRoleResource {
 
     private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -27,7 +27,7 @@ public class ModifyAccountAttributesResource {// changes only phone and address 
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response modifyAccountAttributes(ModifyAccountAttributesRequest request) {
+    public Response showUserRole(AccountRequest request) {
 
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);
@@ -63,52 +63,17 @@ public class ModifyAccountAttributesResource {// changes only phone and address 
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        String calerRole = request.token.role;
-        String targetRole = user.getString("user_role");
-
-        if ((calerRole == null || (!calerRole.equals("ADMIN") && !calerRole.equals("BOFFICER") && !calerRole.equals("USER")))
-        || (calerRole.equals("USER") && !request.token.username.equals(request.input.username))
-        || (calerRole.equals("BOFFICER") && !request.token.username.equals(request.input.username) && !targetRole.equals("USER"))) {
+        String role = request.token.role;
+        if (role == null || (!role.equals("ADMIN") && !role.equals("BOFFICER"))) {
             // UNAUTHORIZED
             ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        // INVALID_INPUT
-        boolean existsPhone = request.input.attributes != null && request.input.attributes.phone != null
-                && !request.input.attributes.phone.isBlank() && isInteger(request.input.attributes.phone);
+        String username = user.getKey().getName();
+        String userRole = user.getString("user_role");
 
-        boolean existsAddress = request.input.attributes != null && request.input.attributes.address != null
-        && !request.input.attributes.address.isBlank();
-
-        if ((!existsPhone && !existsAddress) || !isInteger(request.input.attributes.phone)) {
-            // INVALID_INPUT
-            ErrorResponse responseErr = new ErrorResponse("9906", "The call is using input data not following the correct specification");
-
-            return Response.ok().entity(g.toJson(responseErr)).build();
-        }
-
-        // update the fields that exist in the request
-        Entity.Builder updatedUser = Entity.newBuilder(user);
-        if (existsPhone) {
-            updatedUser.set("user_phone", request.input.attributes.phone);
-        }
-        if (existsAddress) {
-            updatedUser.set("user_address", request.input.attributes.address);
-        }
-        datastore.update(updatedUser.build());//save the updates to datastore
-
-        SuccessResponse response = new SuccessResponse("Updated successfully");
-
+        UserResponse response = new UserResponse(username, userRole);
         return Response.ok().entity(g.toJson(response)).build();
-    }
-
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }

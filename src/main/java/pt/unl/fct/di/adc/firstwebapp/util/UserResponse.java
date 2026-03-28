@@ -1,7 +1,7 @@
 package pt.unl.fct.di.adc.firstwebapp.util;
 
-// response for the /createaccount endpoint REST operation Op1
-public class RegisterResponse {
+// response for the /createaccount endpoint REST operation Op1 and for showuserrole
+public class UserResponse {
 
     public String status;
 
@@ -12,7 +12,7 @@ public class RegisterResponse {
         public String role;
     }
 
-    public RegisterResponse(String username, String role) {
+    public UserResponse(String username, String role) {
         this.status = "success";
         this.data = new Data();
         this.data.username = username;

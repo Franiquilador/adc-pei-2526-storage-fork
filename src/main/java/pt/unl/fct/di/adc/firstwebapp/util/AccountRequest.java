@@ -1,6 +1,7 @@
 package pt.unl.fct.di.adc.firstwebapp.util;
 
-public class DeleteAccountRequest {
+// used by deleteaccount and showuserrole
+public class AccountRequest {
 
     public Input input;
 
