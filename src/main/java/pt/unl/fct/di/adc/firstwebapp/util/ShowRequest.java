@@ -1,6 +1,7 @@
 package pt.unl.fct.di.adc.firstwebapp.util;
 
-public class ShowUsersRequest {
+// used by showusers and ShowAuthenticatedSessions commands
+public class ShowRequest {
 
     public Input input;
 

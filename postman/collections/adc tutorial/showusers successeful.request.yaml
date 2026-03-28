@@ -59,7 +59,7 @@ scripts:
 
       \r
 
-      pm.test(\"Each user has 'username' and 'role' fields\", function () {\r
+      pm.test(\"Each user has username and role fields\", function () {\r
 
       \    const users = pm.response.json().data.users;\r
 

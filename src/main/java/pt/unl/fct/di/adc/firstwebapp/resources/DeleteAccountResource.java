@@ -11,7 +11,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.unl.fct.di.adc.firstwebapp.util.DeleteAccountRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
-import pt.unl.fct.di.adc.firstwebapp.util.ShowUsersRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.SuccessResponse;
 
 import java.util.logging.Logger;
