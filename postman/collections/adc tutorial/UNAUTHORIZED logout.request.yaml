@@ -1,6 +1,6 @@
 $kind: http-request
-name: UNAUTHORIZED bofficer deleteaccount
-url: http://localhost:8080/rest/deleteaccount
+name: UNAUTHORIZED logout
+url: http://localhost:8080/rest/logout
 method: POST
 body:
   type: json
@@ -8,7 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"user2@myemail\"\r
+    \        \"username\": \"user1@myemail\"\r
 
     \    },\r
 
@@ -52,4 +52,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 20000
+order: 37000

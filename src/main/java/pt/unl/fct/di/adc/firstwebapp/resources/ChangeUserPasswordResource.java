@@ -27,7 +27,7 @@ public class ChangeUserPasswordResource {
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changeUserRole(ChangeUserPasswordRequest request) {
+    public Response changeUserPassword(ChangeUserPasswordRequest request) {
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);
 
@@ -64,6 +64,11 @@ public class ChangeUserPasswordResource {
                     ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");
                     return Response.ok().entity(g.toJson(errorResponse)).build();
                 }
+
+                // update the user pwd
+                Entity.Builder updatedUser = Entity.newBuilder(user);
+                updatedUser.set("user_pwd", DigestUtils.sha512Hex(request.input.newPassword));
+                datastore.update(updatedUser.build());//save the updates to datastore
 
                 SuccessResponse response = new SuccessResponse("Password changed successfully");
 

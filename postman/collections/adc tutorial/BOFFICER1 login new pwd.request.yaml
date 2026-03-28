@@ -1,5 +1,5 @@
 $kind: http-request
-name: BOFFICER1 login
+name: BOFFICER1 login new pwd
 url: http://localhost:8080/rest/login
 method: POST
 body:
@@ -10,7 +10,7 @@ body:
 
     \        \"username\": \"bofficer1@myemail\",\r
 
-    \        \"password\": \"pwd\"\r
+    \        \"password\": \"pwd2\"\r
 
     \    }\r
 
@@ -119,17 +119,19 @@ scripts:
 
       \    const token = json.data.token;\r
 
-      \    pm.collectionVariables.set(\"tokenIdBofficer1\", token.tokenId);\r
+      \    pm.collectionVariables.set(\"tokenIdBofficer1newpwd\",
+      token.tokenId);\r
 
-      \    pm.collectionVariables.set(\"tokenUsernameBofficer1\",
+      \    pm.collectionVariables.set(\"tokenUsernameBofficer1newpwd\",
       token.username);\r
 
-      \    pm.collectionVariables.set(\"tokenRoleBofficer1\", token.role);\r
+      \    pm.collectionVariables.set(\"tokenRoleBofficer1newpwd\",
+      token.role);\r
 
-      \    pm.collectionVariables.set(\"tokenIssuedAtBofficer1\",
+      \    pm.collectionVariables.set(\"tokenIssuedAtBofficer1newpwd\",
       token.issuedAt);\r
 
-      \    pm.collectionVariables.set(\"tokenExpiresAtBofficer1\",
+      \    pm.collectionVariables.set(\"tokenExpiresAtBofficer1newpwd\",
       token.expiresAt);\r
 
       } else {\r
@@ -138,4 +140,4 @@ scripts:
 
       }"
     language: text/javascript
-order: 19000
+order: 4500317716486811

@@ -1,16 +1,12 @@
 $kind: http-request
-name: UNAUTHORIZED bofficer deleteaccount
-url: http://localhost:8080/rest/deleteaccount
+name: INVALID_TOKEN BOFFICER1 showusers
+url: http://localhost:8080/rest/showusers
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {\r
-
-    \        \"username\": \"user2@myemail\"\r
-
-    \    },\r
+    \    \"input\": {},\r
 
     \    \"token\": {\r
 
@@ -35,9 +31,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9905\", () => {\r
+      pm.test(\"Status is error code 9903\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9905\");\r
+      \  pm.expect(json.status).to.eql(\"9903\");\r
 
       });\r
 
@@ -45,11 +41,15 @@ scripts:
 
       // Check the error message\r
 
-      pm.test(\"unauthorized\", () => {\r
+      pm.test(\"invalid token\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The operation is not allowed for the user
-      role\");\r
+      \  pm.expect(json.data).to.eql(\"The operation is called with an invalid
+      token (wrong format for example)\");\r
 
       });"
     language: text/javascript
-order: 20000
+  - type: beforeRequest
+    code: //console.log("expiresAt value being sent:",
+      pm.collectionVariables.get("tokenExpiresAt"));
+    language: text/javascript
+order: 41000

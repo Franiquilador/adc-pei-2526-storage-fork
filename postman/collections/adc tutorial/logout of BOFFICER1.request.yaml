@@ -1,6 +1,6 @@
 $kind: http-request
-name: ChangeUserPassword of ADM1
-url: http://localhost:8080/rest/changeuserpwd
+name: logout of BOFFICER1
+url: http://localhost:8080/rest/logout
 method: POST
 body:
   type: json
@@ -8,25 +8,21 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"adm1@myemail\",\r
-
-    \        \"oldPassword\": \"pwd\",\r
-
-    \        \"newPassword\": \"pwd2\"\r
+    \        \"username\": \"bofficer1@myemail\"\r
 
     \    },\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenId}}\",\r
+    \        \"tokenId\": \"{{tokenIdBofficer1}}\",\r
 
-    \        \"username\": \"{{tokenUsername}}\",\r
+    \        \"username\": \"{{tokenUsernameBofficer1}}\",\r
 
-    \        \"role\": \"{{tokenRole}}\",\r
+    \        \"role\": \"{{tokenRoleBofficer1}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAt}},\r
+    \        \"issuedAt\": {{tokenIssuedAtBofficer1}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAt}}\r
+    \        \"expiresAt\": {{tokenExpiresAtBofficer1}}\r
 
     \    }\r
 
@@ -65,9 +61,8 @@ scripts:
 
       pm.test(\"message confirmation\", () => {\r
 
-      \  pm.expect(json.data.message).to.eql(\"Password changed
-      successfully\");\r
+      \  pm.expect(json.data.message).to.eql(\"Logout successful\");\r
 
       });"
     language: text/javascript
-order: 34573
+order: 38000

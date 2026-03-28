@@ -17,3 +17,8 @@ variables:
   tokenRoleBofficer1: ""
   tokenIssuedAtBofficer1: ""
   tokenExpiresAtBofficer1: ""
+  tokenIdBofficer1newpwd: ""
+  tokenUsernameBofficer1newpwd: ""
+  tokenRoleBofficer1newpwd: ""
+  tokenIssuedAtBofficer1newpwd: ""
+  tokenExpiresAtBofficer1newpwd: ""
