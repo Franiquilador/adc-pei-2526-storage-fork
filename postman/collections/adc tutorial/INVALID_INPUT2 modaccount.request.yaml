@@ -1,6 +1,6 @@
 $kind: http-request
-name: USER_NOT_FOUND deleteaccount
-url: http://localhost:8080/rest/deleteaccount
+name: INVALID_INPUT2 modaccount
+url: http://localhost:8080/rest/modaccount
 method: POST
 body:
   type: json
@@ -8,7 +8,15 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"randomuser@myemail\"\r
+    \        \"username\": \"user3@myemail\",\r
+
+    \        \"attributes\": {\r
+
+    \            \"phone\": \"\",\r
+
+    \            \"address\": \"\"\r
+
+    \        }\r
 
     \    },\r
 
@@ -35,9 +43,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9902\", () => {\r
+      pm.test(\"Status is error code 9906\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9902\");\r
+      \  pm.expect(json.status).to.eql(\"9906\");\r
 
       });\r
 
@@ -45,11 +53,11 @@ scripts:
 
       // Check the error message\r
 
-      pm.test(\"Username not found\", () => {\r
+      pm.test(\"invalid input error message\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The username referred in the operation
-      doesn’t exist in registered accounts\");\r
+      \  pm.expect(json.data).to.eql(\"The call is using input data not
+      following the correct specification\");\r
 
       });"
     language: text/javascript
-order: 14000
+order: 2778664550802407

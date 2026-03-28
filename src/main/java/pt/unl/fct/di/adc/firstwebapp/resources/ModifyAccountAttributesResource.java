@@ -11,25 +11,24 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.unl.fct.di.adc.firstwebapp.util.DeleteAccountRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.ErrorResponse;
-import pt.unl.fct.di.adc.firstwebapp.util.ShowUsersRequest;
+import pt.unl.fct.di.adc.firstwebapp.util.ModifyAccountAttributesRequest;
 import pt.unl.fct.di.adc.firstwebapp.util.SuccessResponse;
 
 import java.util.logging.Logger;
 
-@Path("/deleteaccount")
+@Path("/modaccount")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-public class DeleteAccountResource {
+public class ModifyAccountAttributesResource {// changes only phone and address fields
 
     private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     private final Gson g = new GsonBuilder().setPrettyPrinting().create();
     private static final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
 
-
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteAccount(DeleteAccountRequest request) {
+    public Response modifyAccountAttributes(ModifyAccountAttributesRequest request) {
 
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);
@@ -65,29 +64,52 @@ public class DeleteAccountResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        String role = request.token.role;
-        if (role == null || !role.equals("ADMIN")) {
+        String calerRole = request.token.role;
+        String targetRole = user.getString("user_role");
+
+        if ((calerRole == null || (!calerRole.equals("ADMIN") && !calerRole.equals("BOFFICER") && !calerRole.equals("USER")))
+        || (calerRole.equals("USER") && !request.token.username.equals(request.input.username))
+        || (calerRole.equals("BOFFICER") && !request.token.username.equals(request.input.username) && !targetRole.equals("USER"))) {
             // UNAUTHORIZED
             ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        // delete the user from datastore
-        datastore.delete(userKey);
+        // INVALID_INPUT
+        boolean existsPhone = request.input.attributes != null && request.input.attributes.phone != null
+                && !request.input.attributes.phone.isBlank() && isInteger(request.input.attributes.phone);
 
-        //delete every token associated with this user
-        Query<Entity> tokenQuery = Query.newEntityQueryBuilder().setKind("AuthToken")
-                .setFilter(StructuredQuery.PropertyFilter.eq("username", request.input.username))
-                .build();
+        boolean existsAddress = request.input.attributes != null && request.input.attributes.address != null
+        && !request.input.attributes.address.isBlank();
 
-        QueryResults<Entity> results = datastore.run(tokenQuery);
-        while (results.hasNext()) {
-            Entity token = results.next();
-            datastore.delete(token.getKey());
+        if ((!existsPhone && !existsAddress) || !isInteger(request.input.attributes.phone)) {
+            // INVALID_INPUT
+            ErrorResponse responseErr = new ErrorResponse("9906", "The call is using input data not following the correct specification");
+
+            return Response.ok().entity(g.toJson(responseErr)).build();
         }
 
-        SuccessResponse response = new SuccessResponse("Account deleted successfully");
+        // update the fields that exist in the request
+        Entity.Builder updatedUser = Entity.newBuilder(user);
+        if (existsPhone) {
+            updatedUser.set("user_phone", request.input.attributes.phone);
+        }
+        if (existsAddress) {
+            updatedUser.set("user_address", request.input.attributes.address);
+        }
+        datastore.update(updatedUser.build());//save the updates to datastore
+
+        SuccessResponse response = new SuccessResponse("Updated successfully");
 
         return Response.ok().entity(g.toJson(response)).build();
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

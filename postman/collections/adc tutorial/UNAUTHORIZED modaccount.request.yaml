@@ -1,12 +1,24 @@
 $kind: http-request
-name: UNAUTHORIZED
-url: http://localhost:8080/rest/showusers
+name: UNAUTHORIZED modaccount
+url: http://localhost:8080/rest/modaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {},\r
+    \    \"input\": {\r
+
+    \        \"username\": \"user3@myemail\",\r
+
+    \        \"attributes\": {\r
+
+    \            \"phone\": \"777\",\r
+
+    \            \"address\": \"qualquer_rua\"\r
+
+    \        }\r
+
+    \    },\r
 
     \    \"token\": {\r
 
@@ -48,4 +60,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 13000
+order: 24000

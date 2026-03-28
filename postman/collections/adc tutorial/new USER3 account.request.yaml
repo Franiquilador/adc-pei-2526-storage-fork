@@ -1,5 +1,5 @@
 $kind: http-request
-name: new BOFFICER account
+name: new USER3 account
 url: http://localhost:8080/rest/createaccount
 method: POST
 body:
@@ -8,7 +8,7 @@ body:
 
     \  \"input\":{\r
 
-    \    \"username\":\"bofficer1@myemail\",\r
+    \    \"username\":\"user3@myemail\",\r
 
     \    \"password\":\"pwd\",\r
 
@@ -18,7 +18,7 @@ body:
 
     \    \"address\":\"address1\",\r
 
-    \    \"role\":\"BOFFICER\"\r
+    \    \"role\":\"USER\"\r
 
     \  }\r
 
@@ -64,7 +64,7 @@ scripts:
 
       pm.test(\"Username matches input\", () => {\r
 
-      \  pm.expect(json.data.username).to.eql(\"bofficer1@myemail\");\r
+      \  pm.expect(json.data.username).to.eql(\"user3@myemail\");\r
 
       });\r
 
@@ -72,9 +72,9 @@ scripts:
 
       // Check role is correct\r
 
-      pm.test(\"Role is BOFFICER\", () => {\r
+      pm.test(\"Role is USER\", () => {\r
 
-      \  pm.expect(json.data.role).to.eql(\"BOFFICER\");\r
+      \  pm.expect(json.data.role).to.eql(\"USER\");\r
 
       });\r
 
@@ -88,4 +88,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 4097161831278200
+order: 22000

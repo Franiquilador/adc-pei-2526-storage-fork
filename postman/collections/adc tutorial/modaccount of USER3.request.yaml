@@ -1,6 +1,6 @@
 $kind: http-request
-name: deleteaccount of USER2
-url: http://localhost:8080/rest/deleteaccount
+name: modaccount of USER3
+url: http://localhost:8080/rest/modaccount
 method: POST
 body:
   type: json
@@ -8,7 +8,15 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"user2@myemail\"\r
+    \        \"username\": \"user3@myemail\",\r
+
+    \        \"attributes\": {\r
+
+    \            \"phone\": \"777\",\r
+
+    \            \"address\": \"uma_rua\"\r
+
+    \        }\r
 
     \    },\r
 
@@ -61,9 +69,8 @@ scripts:
 
       pm.test(\"message confirmation\", () => {\r
 
-      \  pm.expect(json.data.message).to.eql(\"Account deleted
-      successfully\");\r
+      \  pm.expect(json.data.message).to.eql(\"Updated successfully\");\r
 
       });"
     language: text/javascript
-order: 20000
+order: 3968190947660829
