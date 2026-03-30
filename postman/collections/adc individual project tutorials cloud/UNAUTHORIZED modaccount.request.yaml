@@ -1,6 +1,6 @@
 $kind: http-request
-name: UNAUTHORIZED ChangeUserPassword
-url: http://localhost:8080/rest/changeuserpwd
+name: UNAUTHORIZED modaccount
+url: https://first-web-application-489212.oa.r.appspot.com/rest/modaccount
 method: POST
 body:
   type: json
@@ -10,23 +10,27 @@ body:
 
     \        \"username\": \"user3@myemail\",\r
 
-    \        \"oldPassword\": \"pwd\",\r
+    \        \"attributes\": {\r
 
-    \        \"newPassword\": \"pwd2\"\r
+    \            \"phone\": \"777\",\r
+
+    \            \"address\": \"qualquer_rua\"\r
+
+    \        }\r
 
     \    },\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenId}}\",\r
+    \        \"tokenId\": \"{{tokenIdUser}}\",\r
 
-    \        \"username\": \"{{tokenUsername}}\",\r
+    \        \"username\": \"{{tokenUsernameUser}}\",\r
 
-    \        \"role\": \"{{tokenRole}}\",\r
+    \        \"role\": \"{{tokenRoleUser}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAt}},\r
+    \        \"issuedAt\": {{tokenIssuedAtUser}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAt}}\r
+    \        \"expiresAt\": {{tokenExpiresAtUser}}\r
 
     \    }\r
 
@@ -56,4 +60,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 38000
+order: 25000

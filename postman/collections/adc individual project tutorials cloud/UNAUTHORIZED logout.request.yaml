@@ -1,6 +1,6 @@
 $kind: http-request
-name: logout of BOFFICER1
-url: http://localhost:8080/rest/logout
+name: UNAUTHORIZED logout
+url: https://first-web-application-489212.oa.r.appspot.com/rest/logout
 method: POST
 body:
   type: json
@@ -8,7 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"bofficer1@myemail\"\r
+    \        \"username\": \"user1@myemail\"\r
 
     \    },\r
 
@@ -33,36 +33,23 @@ scripts:
 
       \r
 
-      \r
+      // Check it did not succeed\r
 
-      pm.test(\"Status is 200\", () => {\r
+      pm.test(\"Status is error code 9905\", () => {\r
 
-      \  pm.response.to.have.status(200);\r
-
-      });\r
-
-      \r
-
-      pm.test(\"Status is success\", () => {\r
-
-      \  pm.expect(json.status).to.eql(\"success\");\r
+      \  pm.expect(json.status).to.eql(\"9905\");\r
 
       });\r
 
       \r
 
-      pm.test(\"Data object exists\", () => {\r
+      // Check the error message\r
 
-      \  pm.expect(json).to.have.property(\"data\");\r
+      pm.test(\"unauthorized\", () => {\r
 
-      });\r
-
-      \r
-
-      pm.test(\"message confirmation\", () => {\r
-
-      \  pm.expect(json.data.message).to.eql(\"Logout successful\");\r
+      \  pm.expect(json.data).to.eql(\"The operation is not allowed for the user
+      role\");\r
 
       });"
     language: text/javascript
-order: 40000
+order: 37000

@@ -63,7 +63,8 @@ public class ModifyAccountAttributesResource {// changes only phone and address 
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        String calerRole = request.token.role;
+        //String calerRole = request.token.role;
+        String calerRole = storedToken.getString("role");//get the token role from datastore
         String targetRole = user.getString("user_role");
 
         if ((calerRole == null || (!calerRole.equals("ADMIN") && !calerRole.equals("BOFFICER") && !calerRole.equals("USER")))

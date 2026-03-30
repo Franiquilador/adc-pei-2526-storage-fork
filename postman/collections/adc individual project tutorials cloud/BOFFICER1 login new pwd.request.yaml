@@ -1,6 +1,6 @@
 $kind: http-request
 name: BOFFICER1 login new pwd
-url: http://localhost:8080/rest/login
+url: https://first-web-application-489212.oa.r.appspot.com/rest/login
 method: POST
 body:
   type: json
@@ -140,4 +140,4 @@ scripts:
 
       }"
     language: text/javascript
-order: 41000
+order: 38948

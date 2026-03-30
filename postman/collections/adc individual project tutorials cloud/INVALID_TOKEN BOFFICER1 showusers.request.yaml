@@ -1,6 +1,6 @@
 $kind: http-request
 name: INVALID_TOKEN BOFFICER1 showusers
-url: http://localhost:8080/rest/showusers
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showusers
 method: POST
 body:
   type: json
@@ -52,4 +52,4 @@ scripts:
     code: //console.log("expiresAt value being sent:",
       pm.collectionVariables.get("tokenExpiresAt"));
     language: text/javascript
-order: 43000
+order: 41000

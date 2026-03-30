@@ -1,6 +1,6 @@
 $kind: http-request
-name: showuserrole of USER3 now BOFFICER
-url: http://localhost:8080/rest/showuserrole
+name: showuserrole of BOFICCER1
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showuserrole
 method: POST
 body:
   type: json
@@ -8,7 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"user3@myemail\"\r
+    \        \"username\": \"bofficer1@myemail\"\r
 
     \    },\r
 
@@ -68,7 +68,7 @@ scripts:
 
       pm.test(\"Username matches input\", () => {\r
 
-      \  pm.expect(json.data.username).to.eql(\"user3@myemail\");\r
+      \  pm.expect(json.data.username).to.eql(\"bofficer1@myemail\");\r
 
       });\r
 
@@ -92,4 +92,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 36000
+order: 28000

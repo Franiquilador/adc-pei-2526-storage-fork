@@ -1,6 +1,6 @@
 $kind: http-request
-name: logout of BOFFICER1
-url: http://localhost:8080/rest/logout
+name: changeuserrole of USER3 TO BOFFICER
+url: https://first-web-application-489212.oa.r.appspot.com/rest/changeuserrole
 method: POST
 body:
   type: json
@@ -8,21 +8,23 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"bofficer1@myemail\"\r
+    \        \"username\": \"user3@myemail\",\r
+
+    \        \"newRole\": \"BOFFICER\"\r
 
     \    },\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenIdBofficer1}}\",\r
+    \        \"tokenId\": \"{{tokenId}}\",\r
 
-    \        \"username\": \"{{tokenUsernameBofficer1}}\",\r
+    \        \"username\": \"{{tokenUsername}}\",\r
 
-    \        \"role\": \"{{tokenRoleBofficer1}}\",\r
+    \        \"role\": \"{{tokenRole}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAtBofficer1}},\r
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtBofficer1}}\r
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
 
     \    }\r
 
@@ -61,8 +63,8 @@ scripts:
 
       pm.test(\"message confirmation\", () => {\r
 
-      \  pm.expect(json.data.message).to.eql(\"Logout successful\");\r
+      \  pm.expect(json.data.message).to.eql(\"Role updated successfully\");\r
 
       });"
     language: text/javascript
-order: 40000
+order: 33000

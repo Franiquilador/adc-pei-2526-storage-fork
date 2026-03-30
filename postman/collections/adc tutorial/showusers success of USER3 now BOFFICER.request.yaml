@@ -1,5 +1,5 @@
 $kind: http-request
-name: BOFFICER1 showusers new pwd
+name: showusers success of USER3 now BOFFICER
 url: http://localhost:8080/rest/showusers
 method: POST
 body:
@@ -10,15 +10,15 @@ body:
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenIdBofficer1newpwd}}\",\r
+    \        \"tokenId\": \"{{tokenIdUser3}}\",\r
 
-    \        \"username\": \"{{tokenUsernameBofficer1newpwd}}\",\r
+    \        \"username\": \"{{tokenUsernameUser3}}\",\r
 
-    \        \"role\": \"{{tokenRoleBofficer1newpwd}}\",\r
+    \        \"role\": \"{{tokenRoleUser3}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAtBofficer1newpwd}},\r
+    \        \"issuedAt\": {{tokenIssuedAtUser3}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtBofficer1newpwd}}\r
+    \        \"expiresAt\": {{tokenExpiresAtUser3}}\r
 
     \    }\r
 
@@ -109,4 +109,4 @@ scripts:
     code: //console.log("expiresAt value being sent:",
       pm.collectionVariables.get("tokenExpiresAt"));
     language: text/javascript
-order: 45000
+order: 35000

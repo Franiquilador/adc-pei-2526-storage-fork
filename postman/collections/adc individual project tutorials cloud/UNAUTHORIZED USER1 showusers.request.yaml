@@ -1,32 +1,24 @@
 $kind: http-request
-name: UNAUTHORIZED ChangeUserPassword
-url: http://localhost:8080/rest/changeuserpwd
+name: UNAUTHORIZED USER1 showusers
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showusers
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {\r
-
-    \        \"username\": \"user3@myemail\",\r
-
-    \        \"oldPassword\": \"pwd\",\r
-
-    \        \"newPassword\": \"pwd2\"\r
-
-    \    },\r
+    \    \"input\": {},\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenId}}\",\r
+    \        \"tokenId\": \"{{tokenIdUser}}\",\r
 
-    \        \"username\": \"{{tokenUsername}}\",\r
+    \        \"username\": \"{{tokenUsernameUser}}\",\r
 
-    \        \"role\": \"{{tokenRole}}\",\r
+    \        \"role\": \"{{tokenRoleUser}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAt}},\r
+    \        \"issuedAt\": {{tokenIssuedAtUser}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAt}}\r
+    \        \"expiresAt\": {{tokenExpiresAtUser}}\r
 
     \    }\r
 
@@ -56,4 +48,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 38000
+order: 12000

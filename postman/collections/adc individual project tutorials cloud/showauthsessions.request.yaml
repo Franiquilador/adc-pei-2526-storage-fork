@@ -1,0 +1,85 @@
+$kind: http-request
+name: showauthsessions
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showauthsessions
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"input\": {},\r
+
+    \    \"token\": {\r
+
+    \        \"tokenId\": \"{{tokenId}}\",\r
+
+    \        \"username\": \"{{tokenUsername}}\",\r
+
+    \        \"role\": \"{{tokenRole}}\",\r
+
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
+
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
+
+    \    }\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "const json = pm.response.json();\r
+
+      \r
+
+      pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response has status success\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    pm.expect(json.status).to.eql(\"success\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response contains data.sessions array\", function () {\r
+
+      \    const json = pm.response.json();\r
+
+      \    pm.expect(json.data).to.be.an(\"object\");\r
+
+      \    pm.expect(json.data.sessions).to.be.an(\"array\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Each session has tokenId, username, role and expiresAt fields\",
+      function () {\r
+
+      \    const sessions = pm.response.json().data.sessions;\r
+
+      \    sessions.forEach(function (session) {\r
+
+      \        pm.expect(session).to.have.property(\"tokenId\").that.is.a(\"str\
+      ing\");\r
+
+      \        pm.expect(session).to.have.property(\"username\").that.is.a(\"st\
+      ring\");\r
+
+      \        pm.expect(session).to.have.property(\"role\").that.is.a(\"string\
+      \");\r
+
+      \        pm.expect(session).to.have.property(\"expiresAt\").that.is.a(\"n\
+      umber\");\r
+
+      \    });\r
+
+      });"
+    language: text/javascript
+order: 29000

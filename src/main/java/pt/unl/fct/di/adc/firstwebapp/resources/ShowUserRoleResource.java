@@ -63,7 +63,8 @@ public class ShowUserRoleResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        String role = request.token.role;
+        //String role = request.token.role;
+        String role = storedToken.getString("role");//get the token role from datastore
         if (role == null || (!role.equals("ADMIN") && !role.equals("BOFFICER"))) {
             // UNAUTHORIZED
             ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");

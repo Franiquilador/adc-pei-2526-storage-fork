@@ -1,6 +1,6 @@
 $kind: http-request
-name: BOFFICER1 login new pwd
-url: http://localhost:8080/rest/login
+name: BOFFICER1 login
+url: https://first-web-application-489212.oa.r.appspot.com/rest/login
 method: POST
 body:
   type: json
@@ -10,7 +10,7 @@ body:
 
     \        \"username\": \"bofficer1@myemail\",\r
 
-    \        \"password\": \"pwd2\"\r
+    \        \"password\": \"pwd\"\r
 
     \    }\r
 
@@ -119,19 +119,17 @@ scripts:
 
       \    const token = json.data.token;\r
 
-      \    pm.collectionVariables.set(\"tokenIdBofficer1newpwd\",
-      token.tokenId);\r
+      \    pm.collectionVariables.set(\"tokenIdBofficer1\", token.tokenId);\r
 
-      \    pm.collectionVariables.set(\"tokenUsernameBofficer1newpwd\",
+      \    pm.collectionVariables.set(\"tokenUsernameBofficer1\",
       token.username);\r
 
-      \    pm.collectionVariables.set(\"tokenRoleBofficer1newpwd\",
-      token.role);\r
+      \    pm.collectionVariables.set(\"tokenRoleBofficer1\", token.role);\r
 
-      \    pm.collectionVariables.set(\"tokenIssuedAtBofficer1newpwd\",
+      \    pm.collectionVariables.set(\"tokenIssuedAtBofficer1\",
       token.issuedAt);\r
 
-      \    pm.collectionVariables.set(\"tokenExpiresAtBofficer1newpwd\",
+      \    pm.collectionVariables.set(\"tokenExpiresAtBofficer1\",
       token.expiresAt);\r
 
       } else {\r
@@ -140,4 +138,4 @@ scripts:
 
       }"
     language: text/javascript
-order: 41000
+order: 19000

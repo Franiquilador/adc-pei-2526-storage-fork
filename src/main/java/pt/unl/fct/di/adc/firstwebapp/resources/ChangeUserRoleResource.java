@@ -63,7 +63,8 @@ public class ChangeUserRoleResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        String role = request.token.role;
+        //String role = request.token.role;
+        String role = storedToken.getString("role");//get the token role from datastore
         if (role == null || !role.equals("ADMIN")) {
             // UNAUTHORIZED
             ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");
@@ -81,6 +82,22 @@ public class ChangeUserRoleResource {
         Entity.Builder updatedUser = Entity.newBuilder(user);
         updatedUser.set("user_role", request.input.newRole);
         datastore.update(updatedUser.build());//save the updates to datastore
+
+        // update the role on all active tokens of the user
+        Query<Entity> tokenQuery = Query.newEntityQueryBuilder()
+                .setKind("AuthToken")
+                .setFilter(StructuredQuery.PropertyFilter.eq("username", request.input.username))
+                .build();
+
+        QueryResults<Entity> tokenResults = datastore.run(tokenQuery);
+
+        while (tokenResults.hasNext()) {
+            Entity currentToken = tokenResults.next();
+            Entity updatedToken = Entity.newBuilder(currentToken)
+                    .set("role", request.input.newRole)
+                    .build();
+            datastore.update(updatedToken);//save the updates to datastore
+        }
 
         SuccessResponse response = new SuccessResponse("Role updated successfully");
 

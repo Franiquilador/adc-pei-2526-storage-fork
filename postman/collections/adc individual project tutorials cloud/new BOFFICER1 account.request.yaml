@@ -1,30 +1,26 @@
 $kind: http-request
-name: showuserrole of USER3 now BOFFICER
-url: http://localhost:8080/rest/showuserrole
+name: new BOFFICER1 account
+url: https://first-web-application-489212.oa.r.appspot.com/rest/createaccount
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {\r
+    \  \"input\":{\r
 
-    \        \"username\": \"user3@myemail\"\r
+    \    \"username\":\"bofficer1@myemail\",\r
 
-    \    },\r
+    \    \"password\":\"pwd\",\r
 
-    \    \"token\": {\r
+    \    \"confirmation\":\"pwd\",\r
 
-    \        \"tokenId\": \"{{tokenId}}\",\r
+    \    \"phone\":\"123\",\r
 
-    \        \"username\": \"{{tokenUsername}}\",\r
+    \    \"address\":\"address1\",\r
 
-    \        \"role\": \"{{tokenRole}}\",\r
+    \    \"role\":\"BOFFICER\"\r
 
-    \        \"issuedAt\": {{tokenIssuedAt}},\r
-
-    \        \"expiresAt\": {{tokenExpiresAt}}\r
-
-    \    }\r
+    \  }\r
 
     }"
 scripts:
@@ -68,7 +64,7 @@ scripts:
 
       pm.test(\"Username matches input\", () => {\r
 
-      \  pm.expect(json.data.username).to.eql(\"user3@myemail\");\r
+      \  pm.expect(json.data.username).to.eql(\"bofficer1@myemail\");\r
 
       });\r
 
@@ -92,4 +88,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 36000
+order: 17000

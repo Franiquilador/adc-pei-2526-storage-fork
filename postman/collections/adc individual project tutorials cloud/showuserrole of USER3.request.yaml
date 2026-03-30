@@ -1,6 +1,6 @@
 $kind: http-request
-name: showuserrole of USER3 now BOFFICER
-url: http://localhost:8080/rest/showuserrole
+name: showuserrole of USER3
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showuserrole
 method: POST
 body:
   type: json
@@ -76,9 +76,9 @@ scripts:
 
       // Check role is correct\r
 
-      pm.test(\"Role is BOFFICER\", () => {\r
+      pm.test(\"Role is USER\", () => {\r
 
-      \  pm.expect(json.data.role).to.eql(\"BOFFICER\");\r
+      \  pm.expect(json.data.role).to.eql(\"USER\");\r
 
       });\r
 
@@ -92,4 +92,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 36000
+order: 31000

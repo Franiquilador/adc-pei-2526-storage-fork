@@ -52,7 +52,8 @@ public class ShowAuthenticatedSessionsResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        if (!request.token.role.equals("ADMIN")) {
+        String calerRole = storedToken.getString("role");//get the token role from datastore
+        if (!calerRole.equals("ADMIN")) {
             // UNAUTHORIZED
             ErrorResponse errorResponse = new ErrorResponse("9905", "The operation is not allowed for the user role");
             return Response.ok().entity(g.toJson(errorResponse)).build();

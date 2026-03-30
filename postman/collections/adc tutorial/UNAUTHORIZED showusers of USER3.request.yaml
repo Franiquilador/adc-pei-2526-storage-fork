@@ -1,32 +1,24 @@
 $kind: http-request
-name: UNAUTHORIZED ChangeUserPassword
-url: http://localhost:8080/rest/changeuserpwd
+name: UNAUTHORIZED showusers of USER3
+url: http://localhost:8080/rest/showusers
 method: POST
 body:
   type: json
   content: "{\r
 
-    \    \"input\": {\r
-
-    \        \"username\": \"user3@myemail\",\r
-
-    \        \"oldPassword\": \"pwd\",\r
-
-    \        \"newPassword\": \"pwd2\"\r
-
-    \    },\r
+    \    \"input\": {},\r
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenId}}\",\r
+    \        \"tokenId\": \"{{tokenIdUser3}}\",\r
 
-    \        \"username\": \"{{tokenUsername}}\",\r
+    \        \"username\": \"{{tokenUsernameUser3}}\",\r
 
-    \        \"role\": \"{{tokenRole}}\",\r
+    \        \"role\": \"{{tokenRoleUser3}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAt}},\r
+    \        \"issuedAt\": {{tokenIssuedAtUser3}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAt}}\r
+    \        \"expiresAt\": {{tokenExpiresAtUser3}}\r
 
     \    }\r
 
@@ -56,4 +48,8 @@ scripts:
 
       });"
     language: text/javascript
-order: 38000
+  - type: beforeRequest
+    code: //console.log("expiresAt value being sent:",
+      pm.collectionVariables.get("tokenExpiresAt"));
+    language: text/javascript
+order: 33000

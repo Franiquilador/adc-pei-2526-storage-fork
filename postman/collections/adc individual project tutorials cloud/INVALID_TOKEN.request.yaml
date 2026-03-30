@@ -1,6 +1,6 @@
 $kind: http-request
-name: INVALID_TOKEN BOFFICER1 showusers
-url: http://localhost:8080/rest/showusers
+name: INVALID_TOKEN
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showusers
 method: POST
 body:
   type: json
@@ -10,15 +10,15 @@ body:
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenIdBofficer1}}\",\r
+    \        \"tokenId\": \"invalido\",\r
 
-    \        \"username\": \"{{tokenUsernameBofficer1}}\",\r
+    \        \"username\": \"{{tokenUsername}}\",\r
 
-    \        \"role\": \"{{tokenRoleBofficer1}}\",\r
+    \        \"role\": \"{{tokenRole}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAtBofficer1}},\r
+    \        \"issuedAt\": {{tokenIssuedAt}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtBofficer1}}\r
+    \        \"expiresAt\": {{tokenExpiresAt}}\r
 
     \    }\r
 
@@ -48,8 +48,4 @@ scripts:
 
       });"
     language: text/javascript
-  - type: beforeRequest
-    code: //console.log("expiresAt value being sent:",
-      pm.collectionVariables.get("tokenExpiresAt"));
-    language: text/javascript
-order: 43000
+order: 9000

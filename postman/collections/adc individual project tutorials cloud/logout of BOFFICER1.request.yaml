@@ -1,6 +1,6 @@
 $kind: http-request
 name: logout of BOFFICER1
-url: http://localhost:8080/rest/logout
+url: https://first-web-application-489212.oa.r.appspot.com/rest/logout
 method: POST
 body:
   type: json
@@ -65,4 +65,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 40000
+order: 38000

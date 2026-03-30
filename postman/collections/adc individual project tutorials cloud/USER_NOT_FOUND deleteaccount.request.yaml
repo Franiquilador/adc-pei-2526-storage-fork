@@ -1,6 +1,6 @@
 $kind: http-request
-name: UNAUTHORIZED ChangeUserPassword
-url: http://localhost:8080/rest/changeuserpwd
+name: USER_NOT_FOUND deleteaccount
+url: https://first-web-application-489212.oa.r.appspot.com/rest/deleteaccount
 method: POST
 body:
   type: json
@@ -8,11 +8,7 @@ body:
 
     \    \"input\": {\r
 
-    \        \"username\": \"user3@myemail\",\r
-
-    \        \"oldPassword\": \"pwd\",\r
-
-    \        \"newPassword\": \"pwd2\"\r
+    \        \"username\": \"randomuser@myemail\"\r
 
     \    },\r
 
@@ -39,9 +35,9 @@ scripts:
 
       // Check it did not succeed\r
 
-      pm.test(\"Status is error code 9905\", () => {\r
+      pm.test(\"Status is error code 9902\", () => {\r
 
-      \  pm.expect(json.status).to.eql(\"9905\");\r
+      \  pm.expect(json.status).to.eql(\"9902\");\r
 
       });\r
 
@@ -49,11 +45,11 @@ scripts:
 
       // Check the error message\r
 
-      pm.test(\"unauthorized\", () => {\r
+      pm.test(\"Username not found\", () => {\r
 
-      \  pm.expect(json.data).to.eql(\"The operation is not allowed for the user
-      role\");\r
+      \  pm.expect(json.data).to.eql(\"The username referred in the operation
+      doesn’t exist in registered accounts\");\r
 
       });"
     language: text/javascript
-order: 38000
+order: 14000

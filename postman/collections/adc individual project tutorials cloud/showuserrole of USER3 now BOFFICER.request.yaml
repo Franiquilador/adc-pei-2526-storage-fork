@@ -1,6 +1,6 @@
 $kind: http-request
 name: showuserrole of USER3 now BOFFICER
-url: http://localhost:8080/rest/showuserrole
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showuserrole
 method: POST
 body:
   type: json
@@ -92,4 +92,4 @@ scripts:
 
       });"
     language: text/javascript
-order: 36000
+order: 34000

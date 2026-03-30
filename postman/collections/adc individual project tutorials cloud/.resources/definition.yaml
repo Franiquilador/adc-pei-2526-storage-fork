@@ -1,5 +1,6 @@
 $kind: collection
-name: adc individual project tutorials
+id: 5E4b68bE0A3eaf7e6007Ee47
+name: adc individual project tutorials cloud
 variables:
   tokenId: ""
   tokenUsername: ""
@@ -22,8 +23,3 @@ variables:
   tokenRoleBofficer1newpwd: ""
   tokenIssuedAtBofficer1newpwd: ""
   tokenExpiresAtBofficer1newpwd: ""
-  tokenIdUser3: ""
-  tokenUsernameUser3: ""
-  tokenRoleUser3: ""
-  tokenIssuedAtUser3: ""
-  tokenExpiresAtUser3: ""

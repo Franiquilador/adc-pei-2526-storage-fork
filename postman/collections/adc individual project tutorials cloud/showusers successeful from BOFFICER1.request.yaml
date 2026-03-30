@@ -1,6 +1,6 @@
 $kind: http-request
-name: BOFFICER1 showusers new pwd
-url: http://localhost:8080/rest/showusers
+name: showusers successeful from BOFFICER1
+url: https://first-web-application-489212.oa.r.appspot.com/rest/showusers
 method: POST
 body:
   type: json
@@ -109,4 +109,4 @@ scripts:
     code: //console.log("expiresAt value being sent:",
       pm.collectionVariables.get("tokenExpiresAt"));
     language: text/javascript
-order: 45000
+order: 39000

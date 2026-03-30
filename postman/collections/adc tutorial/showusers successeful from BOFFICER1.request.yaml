@@ -10,15 +10,15 @@ body:
 
     \    \"token\": {\r
 
-    \        \"tokenId\": \"{{tokenIdBofficer1}}\",\r
+    \        \"tokenId\": \"{{tokenIdBofficer1newpwd}}\",\r
 
-    \        \"username\": \"{{tokenUsernameBofficer1}}\",\r
+    \        \"username\": \"{{tokenUsernameBofficer1newpwd}}\",\r
 
-    \        \"role\": \"{{tokenRoleBofficer1}}\",\r
+    \        \"role\": \"{{tokenRoleBofficer1newpwd}}\",\r
 
-    \        \"issuedAt\": {{tokenIssuedAtBofficer1}},\r
+    \        \"issuedAt\": {{tokenIssuedAtBofficer1newpwd}},\r
 
-    \        \"expiresAt\": {{tokenExpiresAtBofficer1}}\r
+    \        \"expiresAt\": {{tokenExpiresAtBofficer1newpwd}}\r
 
     \    }\r
 
@@ -109,4 +109,4 @@ scripts:
     code: //console.log("expiresAt value being sent:",
       pm.collectionVariables.get("tokenExpiresAt"));
     language: text/javascript
-order: 39000
+order: 42000
