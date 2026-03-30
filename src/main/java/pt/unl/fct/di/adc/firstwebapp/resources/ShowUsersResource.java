@@ -10,14 +10,10 @@ import java.util.logging.Logger;
 
 import com.google.gson.GsonBuilder;
 import jakarta.ws.rs.core.Response;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
-import com.google.cloud.Timestamp;
 
 import pt.unl.fct.di.adc.firstwebapp.util.*;
 
@@ -56,7 +52,6 @@ public class ShowUsersResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        //String role = request.token.role;
         String role = storedToken.getString("role");//get the token role from datastore
         if (role == null || (!role.equals("ADMIN") && !role.equals("BOFFICER"))) {
             // UNAUTHORIZED

@@ -16,7 +16,6 @@ import jakarta.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
-
 @Path("/utils")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8") 
 public class ComputationResource {

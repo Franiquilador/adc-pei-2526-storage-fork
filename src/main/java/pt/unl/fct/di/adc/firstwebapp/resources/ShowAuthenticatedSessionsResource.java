@@ -15,13 +15,11 @@ import pt.unl.fct.di.adc.firstwebapp.util.ShowRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Path("/showauthsessions")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class ShowAuthenticatedSessionsResource {
 
-    private static final Logger LOG = Logger.getLogger(RegisterResource.class.getName());
     private static final Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
     private final Gson g = new GsonBuilder().setPrettyPrinting().create();
 

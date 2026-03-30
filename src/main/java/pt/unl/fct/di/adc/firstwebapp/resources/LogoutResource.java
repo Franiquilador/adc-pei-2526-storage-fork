@@ -51,7 +51,6 @@ public class LogoutResource {
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        //String role = request.token.role;
         String role = storedToken.getString("role");//get the token role from datastore
         if (!role.equals("ADMIN") && !request.token.username.equals(request.input.username)) {
             // UNAUTHORIZED

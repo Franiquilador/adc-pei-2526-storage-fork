@@ -28,7 +28,6 @@ public class ModifyAccountAttributesResource {// changes only phone and address 
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response modifyAccountAttributes(ModifyAccountAttributesRequest request) {
-
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);
 
@@ -63,7 +62,6 @@ public class ModifyAccountAttributesResource {// changes only phone and address 
             return Response.ok().entity(g.toJson(errorResponse)).build();
         }
 
-        //String calerRole = request.token.role;
         String calerRole = storedToken.getString("role");//get the token role from datastore
         String targetRole = user.getString("user_role");
 

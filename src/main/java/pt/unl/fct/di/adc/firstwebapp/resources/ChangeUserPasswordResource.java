@@ -1,6 +1,5 @@
 package pt.unl.fct.di.adc.firstwebapp.resources;
 
-
 import com.google.cloud.datastore.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

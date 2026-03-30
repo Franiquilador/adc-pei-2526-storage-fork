@@ -24,12 +24,10 @@ public class DeleteAccountResource {
     private final Gson g = new GsonBuilder().setPrettyPrinting().create();
     private static final KeyFactory userKeyFactory = datastore.newKeyFactory().setKind("User");
 
-
     @POST
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteAccount(AccountRequest request) {
-
         Key userKey = userKeyFactory.newKey(request.input.username);
         Entity user = datastore.get(userKey);
 

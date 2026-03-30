@@ -1,6 +1,5 @@
 package pt.unl.fct.di.adc.firstwebapp.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowUsersResponse {
