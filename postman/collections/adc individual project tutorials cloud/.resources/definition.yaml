@@ -23,3 +23,8 @@ variables:
   tokenRoleBofficer1newpwd: ""
   tokenIssuedAtBofficer1newpwd: ""
   tokenExpiresAtBofficer1newpwd: ""
+  tokenIdUser3: ""
+  tokenUsernameUser3: ""
+  tokenRoleUser3: ""
+  tokenIssuedAtUser3: ""
+  tokenExpiresAtUser3: ""
