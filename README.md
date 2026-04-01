@@ -44,6 +44,31 @@ Please follow the slides as you go along.
 
 ---
 
+To test locally on windows, open a command prompt terminal (not powershell), and run
+`gcloud beta emulators datastore start` to start the emulator.
+
+Then, in another command prompt terminal, run `.\initenv.bat` to set environment variables and `mvn clean package appengine:run` to compile and run the maven project.
+
+kill the instance with `taskkill /F /IM java.exe` in case the compiler fails because of a file lock of another process holding the target bin
+
+For deploying to the cloud make sure the local emulator and app is stopped so that the compiler can aquire a lock on the target .war when compiling and deploying to the cloud. 
+
+Then open a new command prompt and do:
+
+```
+gcloud auth login
+
+gcloud config set project first-web-application-489212
+
+mvn clean package appengine:deploy -Dapp.deploy.projectId=first-web-application-489212 -Dapp.deploy.version=2
+```
+
+And the project should be live at https://first-web-application-489212.oa.r.appspot.com/.
+
+
+
+---
+
 ## License
 
 See [LICENSE](LICENSE) for details.

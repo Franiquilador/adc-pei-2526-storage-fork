@@ -1,5 +1,4 @@
 target
 .idea
-initenv.bat
 tests
 deletedb.ps1
