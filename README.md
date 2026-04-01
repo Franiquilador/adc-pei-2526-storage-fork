@@ -47,7 +47,7 @@ Please follow the slides as you go along.
 To test locally on windows, open a command prompt terminal (not powershell), and run
 `gcloud beta emulators datastore start` to start the emulator.
 
-Then, in another command prompt terminal, run `.\initenv.bat` to set environment variables and `mvn clean package appengine:run` to compile and run the maven project.
+Then, in another command prompt terminal, run `.\initenv.bat` to set environment variables and compile and run the maven project.
 
 kill the instance with `taskkill /F /IM java.exe` in case the compiler fails because of a file lock of another process holding the target bin
 
